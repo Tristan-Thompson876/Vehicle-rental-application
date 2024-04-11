@@ -2,14 +2,14 @@ public class User {
     private String name;
     private String password;
     private int budget;
-    
+
     public User(String name, String password, int budget){
         this.name = name;
         this.password = password;
         this.budget = budget;
 
     }
-
+//ifiygo
     public String getName(){
         return name;
     }
