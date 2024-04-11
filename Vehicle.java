@@ -9,4 +9,25 @@ public class Vehicle {
         this.cost = cost;
         this.dateAvailablDate = dateavailable;
     }
+
+    public String getType(){
+        return type;
+    }
+
+    public int getSize(){
+        return size;
+    }
+
+    public int getCost(){
+        return cost;
+    }
+
+    public Date getDateAvailable(){
+        return dateAvailablDate;
+    }
+
+    //setters
+    public void setDateAvailable(){
+        
+    }
 }

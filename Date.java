@@ -27,16 +27,7 @@ public class Date {
    * to it can be used to create a valid date and
    * returns true if the condition can be satisfied
    * and false otherwise.
-   * 
-   * To validate the date:
-   * 1. check to see if month is valid
-   * 2. check to see if year is valid
-   * 3. determine whether it's a leap year
-   * 4. determine number of days in month
-   * 5. User number of days in month to check to see
-   * if day is valid
-   * 6. Determine whether date is valid and return
-   * an appropriate value
+   *
    */
 
 public boolean isDateValid() 
