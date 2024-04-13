@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -18,8 +17,16 @@ public class Management {
 
     public ArrayList<User> getUsers(){
         return users;
+        
     }
 
+    //creates a new user
+    public void setUser(String uname, String password){
+
+    }
+    
+    //returns who is logged in
+    //public getWhoIsLoggedIn (){}
 
     //adds a vehicle to arraylist
     public void addVehicle(Vehicle v){
@@ -82,4 +89,3 @@ public class Management {
         //vehicles.removeIf(vehicle -> vehicle.getRentalPrice() < maximum);
     }
 }
-
