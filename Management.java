@@ -84,5 +84,9 @@ public class Management {
     public void sortByMaximumCost(int maximum){
         vehicles.removeIf(vehicle -> vehicle.getCost() < maximum);
     }
+
+    public void loggedIn(){
+        
+    }
 }
 
