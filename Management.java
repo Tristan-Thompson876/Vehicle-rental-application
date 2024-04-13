@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -5,10 +6,11 @@ import java.util.Comparator;
 public class Management {
     private ArrayList<Vehicle> vehicles;
     private ArrayList<User> users;
-
-    public Management(ArrayList<User> users, ArrayList<Vehicle> vehicles){
-        this.users = users;
-        this.vehicles = vehicles;
+    Date date;
+    public Management(){
+        vehicles = new ArrayList<Vehicle>();
+        users = new ArrayList<User>();
+       
     }
 
     public ArrayList<Vehicle> getVehicles(){
@@ -17,16 +19,7 @@ public class Management {
 
     public ArrayList<User> getUsers(){
         return users;
-        
     }
-
-    //creates a new user
-    public void setUser(String uname, String password){
-
-    }
-    
-    //returns who is logged in
-    //public getWhoIsLoggedIn (){}
 
     //adds a vehicle to arraylist
     public void addVehicle(Vehicle v){
@@ -54,9 +47,12 @@ public class Management {
             System.out.println(vehicle);
         }
     }
-    //Gets RentalPrice
-    public void getRentalPrice(){
 
+    //Gets RentalPrice
+    public int getRentalPrice(Date start, Date end,Vehicle vehicle){
+        int duration = date.calculateDuration(start, end);
+        int rentalPrice= vehicle.getCost() * duration;
+        return rentalPrice;
     }
 
     // Rent a vehicle
@@ -89,3 +85,4 @@ public class Management {
         //vehicles.removeIf(vehicle -> vehicle.getRentalPrice() < maximum);
     }
 }
+
