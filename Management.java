@@ -111,5 +111,14 @@ public class Management {
     public void isLoggedIn(){
 
     }
+
+    public boolean isAUsser(String name){
+        for(User user: users){
+            if(user.getName().equals(name)){
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
