@@ -49,7 +49,7 @@ public class Management {
     }
 
     //Gets RentalPrice
-    public int getRentalPrice(Date start, Date end,Vehicle vehicle){
+    public int rentalPrice(Date start, Date end,Vehicle vehicle){
         int duration = date.calculateDuration(start, end);
         int rentalPrice= vehicle.getCost() * duration;
         return rentalPrice;
@@ -62,12 +62,12 @@ public class Management {
 
     // Sort list of vehicles by cost high to low
     public void sortByPriceHighLow(){
-        //Collections.sort(vehicles, Comparator.comparingDouble(Vehicle::getRentalPrice).reversed());
+        Collections.sort(vehicles, Comparator.comparingDouble(Vehicle::getCost).reversed());
     }
 
     // Sort list of vehicles by cost low to high
     public void sortByPriceLowHigh(){
-        //Collections.sort(vehicles, Comparator.comparingDouble(Vehicle::getRentalPrice));
+        Collections.sort(vehicles, Comparator.comparingDouble(Vehicle::getCost));
     }
 
     // Sort list vehicles by size largest to smallest
@@ -77,12 +77,12 @@ public class Management {
 
     // Sort list to include only costs lesser or equal to minimum 
     public void sortByMinimumCost(int minimum){
-       // vehicles.removeIf(vehicle -> vehicle.getRentalPrice() > minimum);
+       vehicles.removeIf(vehicle -> vehicle.getCost() > minimum);
     }
 
     // Sort list to include only costs greater or equal to maximum 
     public void sortByMaximumCost(int maximum){
-        //vehicles.removeIf(vehicle -> vehicle.getRentalPrice() < maximum);
+        vehicles.removeIf(vehicle -> vehicle.getCost() < maximum);
     }
 }
 
