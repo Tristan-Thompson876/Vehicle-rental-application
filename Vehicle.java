@@ -1,76 +1,70 @@
-
+import java.util.Date;
 
 public class Vehicle {
-    private String type;
-    private int size;
-    private int cost;
-    private Date dateAvailable;
-    public Vehicle(String type, int size, int cost, Date dateAvailable) {
-        this.type = type;
-        
-        if (size == 2 || size == 5 || size == 7) {
-            this.size = size;
-        } else {
-            throw new IllegalArgumentException("Invalid size: " + size);
-        }
-        
-        if (cost > 0) {
-            this.cost = cost;
-        } else {
-            throw new IllegalArgumentException("Cost must be positive");
-        }
-        
-        this.dateAvailable = dateAvailable;
+    private String makeModel;
+    private String quality;
+    private int seats;
+    private int rentalPrice;
+    private boolean available;
+
+    public Vehicle(String makeModel, String quality, int seats, int rentalPrice, boolean available) {
+        this.makeModel = makeModel;
+        this.quality = quality;
+        this.seats = seats;
+        this.rentalPrice = rentalPrice;
+        this.available = available;
     }
 
-    public String getType(){
-        return type;
+    public String getMakeModel() {
+        return makeModel;
     }
 
-    public int getSize(){
-        return size;
+    public void setMakeModel(String makeModel) {
+        this.makeModel = makeModel;
     }
 
-    public int getCost(){
-        return cost;
+    public String getQuality() {
+        return quality;
     }
 
-    public Date getDateAvailable(){
-        return dateAvailable;
+    public void setQuality(String quality) {
+        this.quality = quality;
     }
 
-    //setters
-    public void setDateAvailable(Date newDateAvailable) {
-     
+    public int getSeats() {
+        return seats;
     }
-    
 
-    public void setSize(int size) {
-        if (size == 2 || size == 5 || size == 7) {
-            this.size = size;
-        } else {
-            throw new IllegalArgumentException("Invalid size: " + size);
-        }
+    public void setSeats(int seats) {
+        this.seats = seats;
     }
-    
-    public void setCost(int cost) {
-        if (cost > 0) {
-            this.cost = cost;
-        } else {
-            throw new IllegalArgumentException("Cost must be positive");
-        }
+
+    public int getRentalPrice() {
+        return rentalPrice;
+    }
+
+    public void setRentalPrice(int rentalPrice) {
+        this.rentalPrice = rentalPrice;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 
     @Override
-public String toString() {
-    return "Vehicle{" +
-           "type='" + type + '\'' +
-           ", size=" + size +
-           ", cost=" + cost +
-           ", dateAvailable=" + dateAvailable +
-           '}';
+    public String toString() {
+        return "Vehicle{" +
+                "makeModel='" + makeModel + '\'' +
+                ", quality='" + quality + '\'' +
+                ", seats=" + seats +
+                ", rentalPrice=" + rentalPrice +
+                ", available=" + available +
+                '}';
+    }
 }
 
-    
-}
 
