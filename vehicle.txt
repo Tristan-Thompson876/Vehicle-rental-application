@@ -1,0 +1,41 @@
+[Vehicle]
+MakeModel: Toyota Camry
+Quality: LowEnd
+Seats: 5
+RentalPrice: 7000
+Available: true
+
+[Vehicle]
+MakeModel: Suzuki Swift
+Quality: LowEnd
+Seats: 5
+RentalPrice: 7000
+Available: true
+
+[Vehicle]
+MakeModel: Hyundai Creta
+Quality: MidRange
+Seats: 5
+RentalPrice: 18500
+Available: true
+
+[Vehicle]
+MakeModel: Honda Stepwagon
+Quality: MidRange
+Seats:7
+RentalPrice: 18500
+Available: false
+
+[Vehicle]
+MakeModel: Audi Q7
+Quality: HighEnd
+Seats: 7
+RentalPrice: 30000
+Available: true
+
+[Vehicle]
+MakeModel: Porsche 992 Turbo S
+Quality: HighEnd
+Seats: 2
+RentalPrice: 30000
+Available: false
