@@ -107,7 +107,7 @@ public class LoginScreen extends JFrame {
                     errorLabel.setText("");
 
                     // Perform signup logic here
-                    management.setUser(uname, mpassword);
+                    management.createUser(uname, mpassword);
                     System.out.println("Signed up");
 
                 } catch (IllegalArgumentException ex) {
@@ -120,22 +120,23 @@ public class LoginScreen extends JFrame {
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                /* 
+                
                 if(isSignUp == false){
                     String uname = unameText.getText();
                     String mpassword = passwordText.getText();
-                    if(management.isSocialsUser(uname) == true){
+                    if(management.isAUsser(uname) == true){
+                        
                         management.login(uname, mpassword);
-                        System.out.println(social.getWhoIsLoggedIn().getUname()+" thank you");
-                        //management.isSocialsUser(uname);
+                        System.out.println(management.getWhosloggedin().getName()+" thank you");
+                        //management.isAUsser(uname);
                         System.out.println("logged in");
-                        new PublicFeed(uname, frame, social);
+                        new FeedScreen(uname, frame, management);
                     }
                 
                 }
                 else{
 
-                }*/
+                }
             }
         });
 
@@ -199,11 +200,12 @@ public class LoginScreen extends JFrame {
         loginPanel.repaint();
     }
 
+    /* 
     public void logOnInfo(){
         String uname = unameText.getText();
         String mpassword = passwordText.getText();
         System.out.println("in login");
-        /* 
+        
         if(social.isRestricted(uname)){
             System.out.println("okay");
             if (social.login(uname, mpassword)) {
@@ -212,8 +214,8 @@ public class LoginScreen extends JFrame {
                 System.out.println("Login failed. Please check your credentials.");
                 System.out.println("names:" + social.getAllSocialsUsers());
             }
-        }*/
-    }
+        }
+    }*/
 
     
 

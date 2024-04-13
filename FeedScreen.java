@@ -6,14 +6,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class FeedScreen extends JFrame {
+    private String uname;
+    Management management;
     private JTable vehicleTable;
     private JTextField filterTextField;
     private JButton filterButton;
     private List<Vehicle> allVehicles; // This should be initialized with your vehicle data
 
-    public FeedScreen(List<Vehicle> vehicles) {
+    public FeedScreen(String uname, JFrame frame, Management management) {
+        this.uname = uname;
+        this.frame = frame;
+        this.management = management;
+
         // Initialize allVehicles with the provided list
-        this.allVehicles = vehicles;
+        //this.allVehicles = vehicles;
+
 
         // Set up the frame
         setTitle("Vehicle Rental Service");

@@ -7,7 +7,7 @@ public class Management {
     private ArrayList<Vehicle> vehicles;
     private ArrayList<User> users;
     Date date;
-    private String whosloggedin;
+    private User whosloggedin;
 
 
     public Management(){
@@ -16,12 +16,34 @@ public class Management {
        
     }
 
+    public User getWhosloggedin() {
+        return whosloggedin;
+    }
+    
     public ArrayList<Vehicle> getVehicles(){
         return vehicles;
     }
 
     public ArrayList<User> getUsers(){
         return users;
+    }
+
+    public void createUser(String uname, String pword){
+        User user = new User(uname, pword, 0);
+        addUser(user);
+    }
+
+    public void addUser(User u){
+        users.add(u);
+    }
+
+    public User findUser(String uname) {
+        for (User user : users) {
+            if (user.getName().equals(uname)) {
+                return user;
+            }
+        }
+        return null; // Moved outside the loop
     }
 
     //adds a vehicle to arraylist
@@ -107,8 +129,23 @@ public class Management {
     public void sortByMaximumCost(int maximum){
         vehicles.removeIf(vehicle -> vehicle.getRentalPrice() < maximum);
     }
+    public boolean isPasswordCorrect(String uname, String pword){
+        User u = findUser(uname);
+        if(u.getPassword().equals(pword)){
+            return true;
+        }
+        return false;
 
-    public void isLoggedIn(){
+    }
+    public void login(String uname, String pword){
+        if(isAUsser(uname)){
+            if(isPasswordCorrect(uname, pword)){
+               User u = findUser(uname);
+               if(isPasswordCorrect(uname, pword)){
+                whosloggedin = u;
+               }
+            }
+        }
 
     }
 
@@ -120,5 +157,7 @@ public class Management {
         }
         return false;
     }
+
+
 }
 
