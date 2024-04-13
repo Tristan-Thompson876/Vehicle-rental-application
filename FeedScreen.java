@@ -12,6 +12,7 @@ public class FeedScreen extends JFrame {
     private JTextField filterTextField;
     private JButton filterButton;
     private List<Vehicle> allVehicles; // This should be initialized with your vehicle data
+    private JFrame frame;
 
     public FeedScreen(String uname, JFrame frame, Management management) {
         this.uname = uname;
@@ -64,9 +65,9 @@ public class FeedScreen extends JFrame {
         }
     }
 
-    // Main method for demonstration purposes
+   /* // Main method for demonstration purposes
     public static void main(String[] args) {
         // Here you should pass the actual list of vehicles to the FeedScreen
-        new FeedScreen(/* yourListOfVehicles */);
-    }
+        new FeedScreen( yourListOfVehicles );
+    }*/
 }
