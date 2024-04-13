@@ -1,4 +1,10 @@
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -9,7 +15,6 @@ public class Management {
     Date date;
     private User whosloggedin;
 
-
     public Management(){
         vehicles = new ArrayList<Vehicle>();
         users = new ArrayList<User>();
@@ -19,7 +24,7 @@ public class Management {
     public User getWhosloggedin() {
         return whosloggedin;
     }
-    
+
     public ArrayList<Vehicle> getVehicles(){
         return vehicles;
     }
@@ -31,6 +36,7 @@ public class Management {
     public void createUser(String uname, String pword){
         User user = new User(uname, pword, 0);
         addUser(user);
+        saveUsers();
     }
 
     public void addUser(User u){
@@ -45,6 +51,35 @@ public class Management {
         }
         return null; // Moved outside the loop
     }
+
+     // Save users to a file
+     private void saveUsers() {
+        try {
+            FileOutputStream fileOut = new FileOutputStream(new File("USERS_FILE.txt"));
+            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+            objectOut.writeObject(users);
+            objectOut.close();
+            fileOut.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Load users from a file
+    @SuppressWarnings("unchecked") // Suppressing unchecked cast warning
+    private void loadUsers() {
+        try {
+            //File myObj = new File("USERS_FILE.txt");
+            FileInputStream fileIn = new FileInputStream("USERS_FILE.txt");
+            ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+            users = (ArrayList<User>) objectIn.readObject();
+            objectIn.close();
+            fileIn.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     //adds a vehicle to arraylist
     public void addVehicle(Vehicle v){
