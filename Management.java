@@ -196,3 +196,67 @@ public class Management {
 
 }
 
+public class Management {
+    private ArrayList<Vehicle> vehicles;
+    private ArrayList<User> users;
+    private User whosloggedin;
+
+    public Management(){
+        vehicles = new ArrayList<Vehicle>();
+        users = new ArrayList<User>();
+        loadVehicles(); // Load vehicles when Management instance is created
+    }
+
+    // Other methods from your existing Management class...
+
+    // Create a new vehicle and add it to the list
+    public void createVehicle(String make, String model, int seats, double rentalPrice, boolean available) {
+        Vehicle vehicle = new Vehicle(make, model, seats, rentalPrice, available);
+        addVehicle(vehicle);
+        saveVehicles();
+    }
+
+    // Save vehicles to a file
+    private void saveVehicles() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("vehicles.ser"))) {
+            oos.writeObject(vehicles);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Load vehicles from a file
+    private void loadVehicles() {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("vehicles.ser"))) {
+            vehicles = (ArrayList<Vehicle>) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            // If file not found or class not found, it's okay, just initialize an empty list
+            vehicles = new ArrayList<>();
+        }
+    }
+
+    // Method to add a vehicle to the list
+    public void addVehicle(Vehicle v){
+        vehicles.add(v);
+    }
+
+    // Method to remove a vehicle from the list
+    public void removeVehicle(Vehicle v){
+        vehicles.remove(v);
+    }
+
+    // Method to find a specific vehicle by reference
+    public Vehicle findVehicle(Vehicle v){
+        for(Vehicle vehicle : vehicles){
+            if(vehicle.equals(v)){
+                return vehicle;
+            }
+        }
+        return null;
+    }
+
+    // Method to list all vehicles
+    public void listAllVehicles(){
+        for(Vehicle vehicle : vehicles){
+            System.out.println(vehicle);
+        }
