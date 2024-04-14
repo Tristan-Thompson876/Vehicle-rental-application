@@ -31,12 +31,15 @@ public class FeedScreen extends JFrame {
         setLayout(new BorderLayout());
 
         // Navigation panel
+        JPanel mainPanel = new JPanel();
         JPanel navigationPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JPanel feedPanel = new JPanel();
         feedPanel.setLayout(new BoxLayout(feedPanel, BoxLayout.Y_AXIS)); 
         filterTextField = new JTextField(20);
         filterButton = new JButton("Filter");
         //filterButton.addActionListener(e -> filterVehicles());
+        mainPanel.add(navigationPanel);
+        mainPanel.add(feedPanel);
         navigationPanel.add(filterTextField);
         navigationPanel.add(filterButton);
 
