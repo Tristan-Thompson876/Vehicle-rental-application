@@ -4,14 +4,18 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 public class Date {
-   /*
-   * Instance data :
-   */
+/**
+ * The Date class represents a date with year, month, and day .
+ */
   private int year, month, day;
   public boolean state;
   private LocalDate date;
-  /*
-   * Constructor :
+   /**
+   * Constructs a Date object with the specified year, month, and day.
+   *
+   * @param y the year
+   * @param m the month
+   * @param d the day
    */
   public Date(int y, int m, int d){
    this.year = y;
@@ -71,7 +75,11 @@ public boolean isDateValid()
       state = false;
         return state; 
   }  
-  
+  /**
+   * Checks if the year is a leap year.
+   *
+   * @return true if the year is a leap year, false otherwise
+   */
 public boolean isleapyear(){
   boolean leapyear;
   if (year % 4 == 0){
@@ -87,13 +95,24 @@ public boolean isleapyear(){
   return leapyear;
 }
 
-// Calculates the duration between two dates
+/**
+ * Calculates the duration in days between two dates.
+ *
+ * @param start the starting date
+ * @param end the ending date
+ * @return the duration in days
+ */
 public static int calculateDuration(Date start, Date end) {
     Period period = Period.between(start.date, end.date);
     return period.getDays();
 }
 
-// Formats the date to a specific pattern
+/**
+ * Formats the date to a string based on the specified pattern.
+ *
+ * @param pattern the pattern to format the date
+ * @return the formatted date string
+ */
 public String formatDate(String pattern) {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
     return date.format(formatter);
@@ -110,7 +129,11 @@ public String formatDate(String pattern) {
     else
       return (-1);
   }*/
-
+/**
+ * Returns a string representation of the Date object.
+ *
+ * @return a string representation of the Date object
+ */
   public String toString(){
     String date =( year + "/" + month + "/" + day);
       return date;
