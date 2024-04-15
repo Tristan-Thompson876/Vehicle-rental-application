@@ -30,6 +30,7 @@ public class FeedScreen extends JFrame {
         setSize(800, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
+        
 
     
         
@@ -55,6 +56,7 @@ public class FeedScreen extends JFrame {
         }
         //ArrayList<Vehicle> vehicles = management.getVehicles();
         showAllVehicles(vehicles, feedPanel);
+        
 
         System.out.println("baii");
 
@@ -98,6 +100,10 @@ public class FeedScreen extends JFrame {
     public void showAllVehicles(ArrayList<Vehicle> vehicles, JPanel feedPanel) {
         if(!vehicles.isEmpty()){
             System.out.println("lets see");
+            //JScrollPane scrollPane = new JScrollPane(feedPanel);
+            GridLayout gridLayout = new GridLayout(3, 2);
+            feedPanel.setLayout(gridLayout);
+            //feedPanel.add(scrollPane);
             for (Vehicle v : vehicles) {
                 //System.out.println("Vehicle: " + v.getMakeModel());
                 System.out.println("woii");
@@ -112,31 +118,36 @@ public class FeedScreen extends JFrame {
         }
     }
 
-    public JPanel createVehiclePanel(Vehicle vehicle){
-        System.out.println("in create vehicle");
+    public JPanel createVehiclePanel(Vehicle vehicle) {
         JPanel vehiclePanel = new JPanel();
-        
+        vehiclePanel.setLayout(new BoxLayout(vehiclePanel, BoxLayout.Y_AXIS)); // Vertical layout
+    
         JLabel nameLabel = new JLabel("Model/Name: " + vehicle.getMakeModel());
-        System.out.println("right here");
         ImageIcon vehicleImage = loadImageForVehicle(vehicle);
-        JLabel imageLabel = new JLabel();
-        imageLabel.setIcon(vehicleImage);
+        JLabel imageLabel = new JLabel(vehicleImage);
         imageLabel.setPreferredSize(new Dimension(200, 150));
-
+    
         JLabel seatsLabel = new JLabel("Seats: " + vehicle.getSeats());
         JLabel qualityLabel = new JLabel("Quality: " + vehicle.getQuality());
         JLabel priceLabel = new JLabel("Rental Price: $" + vehicle.getRentalPrice());
         JButton rentButton = new JButton("Rent");
-
+    
+        // Set maximum width for the vehicle panel
+        vehiclePanel.setMaximumSize(new Dimension(300, Integer.MAX_VALUE)); // Adjust as needed
+    
+        // Add components to the panel
         vehiclePanel.add(nameLabel);
         vehiclePanel.add(imageLabel);
         vehiclePanel.add(qualityLabel);
         vehiclePanel.add(seatsLabel);
         vehiclePanel.add(priceLabel);
         vehiclePanel.add(rentButton);
-
+    
         return vehiclePanel;
     }
+    
+    
+    
 
     private static ImageIcon loadImageForVehicle(Vehicle vehicle) {
         String imagePath = "images/" + vehicle.getMakeModel() + ".jpg";
