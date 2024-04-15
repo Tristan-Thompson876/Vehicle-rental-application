@@ -124,7 +124,7 @@ public class LoginScreen extends JFrame {
                 if(isSignUp == false){
                     String uname = unameText.getText();
                     String mpassword = passwordText.getText();
-                    if(management.isAUsser(uname) == true){
+                    if(management.isAUser(uname) == true){
                         
                         management.login(uname, mpassword);
                         System.out.println(management.getWhosloggedin().getName()+" thank you");

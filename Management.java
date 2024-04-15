@@ -108,6 +108,33 @@ public class Management {
         }
     }
 
+    
+    // Create a new vehicle and add it to the list
+    public void createVehicle(String makeModel,String quality, int seats, int rentalPrice, boolean available) {
+        Vehicle vehicle = new Vehicle(makeModel,quality, seats, rentalPrice, available);
+         addVehicle(vehicle);
+         saveVehicles();
+     }
+ 
+     // Save vehicles to a file
+     private void saveVehicles() {
+         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("vehicles.ser"))) {
+             oos.writeObject(vehicles);
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
+     }
+ 
+     // Load vehicles from a file
+     private void loadVehicles() {
+         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("vehicles.ser"))) {
+             vehicles = (ArrayList<Vehicle>) ois.readObject();
+         } catch (IOException | ClassNotFoundException e) {
+             // If file not found or class not found, it's okay, just initialize an empty list
+             vehicles = new ArrayList<>();
+         }
+     }
+
     //Gets RentalPrice
     public int rentalPrice(Date start, Date end,Vehicle vehicle){
         int duration = date.calculateDuration(start, end);
@@ -135,10 +162,6 @@ public class Management {
             System.out.println("Sorry, the vehicle is not available for rent.");
         }
     }
-
-
-
-
 
     // Sort list of vehicles by cost high to low
     public void sortByPriceHighLow(){
@@ -173,7 +196,7 @@ public class Management {
 
     }
     public void login(String uname, String pword){
-        if(isAUsser(uname)){
+        if(isAUser(uname)){
             if(isPasswordCorrect(uname, pword)){
                User u = findUser(uname);
                if(isPasswordCorrect(uname, pword)){
@@ -184,7 +207,7 @@ public class Management {
 
     }
 
-    public boolean isAUsser(String name){
+    public boolean isAUser(String name){
         for(User user: users){
             if(user.getName().equals(name)){
                 return true;
@@ -195,68 +218,3 @@ public class Management {
 
 
 }
-
-public class Management {
-    private ArrayList<Vehicle> vehicles;
-    private ArrayList<User> users;
-    private User whosloggedin;
-
-    public Management(){
-        vehicles = new ArrayList<Vehicle>();
-        users = new ArrayList<User>();
-        loadVehicles(); // Load vehicles when Management instance is created
-    }
-
-    // Other methods from your existing Management class...
-
-    // Create a new vehicle and add it to the list
-    public void createVehicle(String make, String model, int seats, double rentalPrice, boolean available) {
-        Vehicle vehicle = new Vehicle(make, model, seats, rentalPrice, available);
-        addVehicle(vehicle);
-        saveVehicles();
-    }
-
-    // Save vehicles to a file
-    private void saveVehicles() {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("vehicles.ser"))) {
-            oos.writeObject(vehicles);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Load vehicles from a file
-    private void loadVehicles() {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("vehicles.ser"))) {
-            vehicles = (ArrayList<Vehicle>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            // If file not found or class not found, it's okay, just initialize an empty list
-            vehicles = new ArrayList<>();
-        }
-    }
-
-    // Method to add a vehicle to the list
-    public void addVehicle(Vehicle v){
-        vehicles.add(v);
-    }
-
-    // Method to remove a vehicle from the list
-    public void removeVehicle(Vehicle v){
-        vehicles.remove(v);
-    }
-
-    // Method to find a specific vehicle by reference
-    public Vehicle findVehicle(Vehicle v){
-        for(Vehicle vehicle : vehicles){
-            if(vehicle.equals(v)){
-                return vehicle;
-            }
-        }
-        return null;
-    }
-
-    // Method to list all vehicles
-    public void listAllVehicles(){
-        for(Vehicle vehicle : vehicles){
-            System.out.println(vehicle);
-        }
