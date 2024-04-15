@@ -12,6 +12,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+/**
+ * The Management class represents a system for managing vehicles and users.
+ * It provides functionalities to add, remove, and manipulate vehicles and users.
+ */
+
 public class Management {
     private ArrayList<Vehicle> vehicles;
     private ArrayList<User> users;
@@ -20,22 +25,12 @@ public class Management {
 
     public Management(){
         vehicles = new ArrayList<Vehicle>();
-        users = new ArrayList<User>();
-       
+        users = new ArrayList<User>();  
     }
 
     public User getWhosloggedin() {
         return whosloggedin;
     }
-
-    public ArrayList<Vehicle> getVehicles() {
-        //System.out.println("vhicles");
-        vehicles = loadVehicles("vehicle.txt");
-        System.out.println("Number of vehicles loaded: " + vehicles.size());
-        //listAllVehicles();
-        return vehicles;
-    }
-    
 
     public ArrayList<User> getUsers(){
         return users;
@@ -57,7 +52,7 @@ public class Management {
                 return user;
             }
         }
-        return null; // Moved outside the loop
+        return null; 
     }
 
      // Save users to a file
@@ -77,7 +72,7 @@ public class Management {
     @SuppressWarnings("unchecked") // Suppressing unchecked cast warning
     private void loadUsers() {
         try {
-            //File myObj = new File("USERS_FILE.txt");
+            File myObj = new File("USERS_FILE.txt");
             FileInputStream fileIn = new FileInputStream("USERS_FILE.txt");
             ObjectInputStream objectIn = new ObjectInputStream(fileIn);
             users = (ArrayList<User>) objectIn.readObject();
@@ -87,6 +82,37 @@ public class Management {
             e.printStackTrace();
         }
     }
+
+
+    public boolean isPasswordCorrect(String uname, String pword){
+        User u = findUser(uname);
+        if(u.getPassword().equals(pword)){
+            return true;
+        }
+        return false;
+
+    }
+    public void login(String uname, String pword){
+        if(isAUser(uname)){
+            if(isPasswordCorrect(uname, pword)){
+               User u = findUser(uname);
+               if(isPasswordCorrect(uname, pword)){
+                whosloggedin = u;
+               }
+            }
+        }
+
+    }
+
+    public boolean isAUser(String name){
+        for(User user: users){
+            if(user.getName().equals(name)){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 
     //adds a vehicle to arraylist
@@ -134,6 +160,14 @@ public class Management {
          }
      }
  
+     public ArrayList<Vehicle> getVehicles() {
+        System.out.println("vehicles");
+        vehicles = loadVehicles("vehicle.txt");
+        System.out.println("Number of vehicles loaded: " + vehicles.size());
+        listAllVehicles();
+        return vehicles;
+    }
+    
      // Load vehicles from a file
      /* 
      public static ArrayList<Vehicle> loadVehicles(String filePath) {
@@ -218,19 +252,12 @@ public class Management {
 
     // Rent a vehicle
     public void rentVehicle(Date startDate, Date endDate, Vehicle vehicle) {
-        if (vehicle.isAvailable()) { // Check if the vehicle is available
-            // Calculate rental price
-            //int rentalPrice = vehicle.getRentalPrice(startDate, endDate);
-
-            // Update vehicle availability
+        if (vehicle.isAvailable()) { 
             vehicle.setAvailable(false);
-
-            // Perform other rental-related operations (e.g., update database, create rental record)
-            // For example, you can add the rented vehicle to a list of rented vehicles for further tracking
-
+            int rentalPrice = rentalPrice(startDate, endDate, vehicle); 
             System.out.println("Vehicle rented successfully:");
             System.out.println(vehicle);
-           // System.out.println("Rental Price: " + rentalPrice);
+            System.out.println("Rental Price: " + rentalPrice);
         } else {
             System.out.println("Sorry, the vehicle is not available for rent.");
         }
@@ -260,34 +287,5 @@ public class Management {
     public void sortByMaximumCost(int maximum){
         vehicles.removeIf(vehicle -> vehicle.getRentalPrice() < maximum);
     }
-    public boolean isPasswordCorrect(String uname, String pword){
-        User u = findUser(uname);
-        if(u.getPassword().equals(pword)){
-            return true;
-        }
-        return false;
-
-    }
-    public void login(String uname, String pword){
-        if(isAUser(uname)){
-            if(isPasswordCorrect(uname, pword)){
-               User u = findUser(uname);
-               if(isPasswordCorrect(uname, pword)){
-                whosloggedin = u;
-               }
-            }
-        }
-
-    }
-
-    public boolean isAUser(String name){
-        for(User user: users){
-            if(user.getName().equals(name)){
-                return true;
-            }
-        }
-        return false;
-    }
-
 
 }
