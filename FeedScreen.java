@@ -2,6 +2,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -103,6 +104,7 @@ public class FeedScreen extends JFrame {
             //JScrollPane scrollPane = new JScrollPane(feedPanel);
             GridLayout gridLayout = new GridLayout(3, 2);
             feedPanel.setLayout(gridLayout);
+            feedPanel.setMaximumSize(new Dimension(2000, Integer.MAX_VALUE));
             //feedPanel.add(scrollPane);
             for (Vehicle v : vehicles) {
                 //System.out.println("Vehicle: " + v.getMakeModel());
@@ -131,9 +133,10 @@ public class FeedScreen extends JFrame {
         JLabel qualityLabel = new JLabel("Quality: " + vehicle.getQuality());
         JLabel priceLabel = new JLabel("Rental Price: $" + vehicle.getRentalPrice());
         JButton rentButton = new JButton("Rent");
+        rentButton.addActionListener(rentButtonActionListener());
     
         // Set maximum width for the vehicle panel
-        vehiclePanel.setMaximumSize(new Dimension(300, Integer.MAX_VALUE)); // Adjust as needed
+        vehiclePanel.setMaximumSize(new Dimension(500, Integer.MAX_VALUE)); // Adjust as needed
     
         // Add components to the panel
         vehiclePanel.add(nameLabel);
@@ -145,7 +148,37 @@ public class FeedScreen extends JFrame {
     
         return vehiclePanel;
     }
-    
+
+    public static ActionListener rentButtonActionListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame rentformFrame = new JFrame();
+
+                rentformFrame.setTitle("Vehicle Rental Service");
+                rentformFrame.setSize(800, 600);
+                rentformFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+                rentformFrame.setLayout(new BorderLayout());
+
+                
+                JPanel rentform = new JPanel();
+                JLabel start_endDate = new JLabel("Start and end date: ");
+                JTextField dateField1 = new JTextField();
+                JTextField dateField2 = new JTextField();
+                JLabel budget = new JLabel("Budget: ");
+
+                rentformFrame.add(rentform);
+                rentform.add(start_endDate);
+                rentform.add(dateField1);
+                rentform.add(dateField2);
+                rentform.add(budget);
+
+                rentformFrame.setVisible(true);
+                
+
+            }
+        };
+    }
     
     
 
