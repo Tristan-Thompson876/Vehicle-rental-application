@@ -1,7 +1,10 @@
 
+import java.io.BufferedReader;
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -25,9 +28,14 @@ public class Management {
         return whosloggedin;
     }
 
-    public ArrayList<Vehicle> getVehicles(){
+    public ArrayList<Vehicle> getVehicles() {
+        //System.out.println("vhicles");
+        vehicles = loadVehicles("vehicle.txt");
+        System.out.println("Number of vehicles loaded: " + vehicles.size());
+        //listAllVehicles();
         return vehicles;
     }
+    
 
     public ArrayList<User> getUsers(){
         return users;
@@ -110,15 +118,16 @@ public class Management {
 
     
     // Create a new vehicle and add it to the list
-    public void createVehicle(String makeModel,String quality, int seats, int rentalPrice, boolean available) {
-        Vehicle vehicle = new Vehicle(makeModel,quality, seats, rentalPrice, available);
-         addVehicle(vehicle);
-         saveVehicles();
-     }
+    public void createVehicle(String makeModel, String quality, int seats, int rentalPrice, boolean available) {
+        Vehicle vehicle = new Vehicle(makeModel, quality, seats, rentalPrice, available);
+        addVehicle(vehicle);
+        saveVehicles();
+    }
+    
  
      // Save vehicles to a file
      private void saveVehicles() {
-         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("vehicles.ser"))) {
+         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("vehicle.txt"))) {
              oos.writeObject(vehicles);
          } catch (IOException e) {
              e.printStackTrace();
@@ -126,15 +135,79 @@ public class Management {
      }
  
      // Load vehicles from a file
-     private void loadVehicles() {
-         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("vehicles.ser"))) {
-             vehicles = (ArrayList<Vehicle>) ois.readObject();
-         } catch (IOException | ClassNotFoundException e) {
-             // If file not found or class not found, it's okay, just initialize an empty list
-             vehicles = new ArrayList<>();
-         }
-     }
+     /* 
+     public static ArrayList<Vehicle> loadVehicles(String filePath) {
+        ArrayList<Vehicle> vehicles = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith("[Vehicle]")) {
+                    String makeModel = reader.readLine().split(": ")[1];
+                    String quality = reader.readLine().split(": ")[1];
+                    int seats = Integer.parseInt(reader.readLine().split(": ")[1]);
+                    int rentalPrice = Integer.parseInt(reader.readLine().split(": ")[1]);
+                    boolean available = Boolean.parseBoolean(reader.readLine().split(": ")[1]);
+                    vehicles.add(new Vehicle(makeModel, quality, seats, rentalPrice, available));
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace(); // Handle exceptions properly in your application
+        }
+        return vehicles;
+    }*/
+    public static ArrayList<Vehicle> loadVehicles(String filePath) {
+        ArrayList<Vehicle> vehicles = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith("[Vehicle]")) {
+                    String makeModel = null;
+                    String quality = null;
+                    int seats = 0;
+                    int rentalPrice = 0;
+                    boolean available = false;
+                    
+                    // Read each attribute of the vehicle
+                    while ((line = reader.readLine()) != null && !line.isEmpty()) {
+                        String[] parts = line.split(": ");
+                        switch (parts[0]) {
+                            case "MakeModel":
+                                makeModel = parts[1];
+                                break;
+                            case "Quality":
+                                quality = parts[1];
+                                break;
+                            case "Seats":
+                                seats = Integer.parseInt(parts[1]);
+                                break;
+                            case "RentalPrice":
+                                rentalPrice = Integer.parseInt(parts[1]);
+                                break;
+                            case "Available":
+                                available = Boolean.parseBoolean(parts[1]);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    
+                    // Create and add the vehicle to the list
+                    Vehicle v = new Vehicle(makeModel, quality, seats, rentalPrice, available); 
+                    vehicles.add(v);
+                    System.out.println(vehicles);
+                    //System.out.println(v);  
+                    System.out.println(vehicles.size());
 
+                }
+                       
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return vehicles;
+    }
+    
+    
     //Gets RentalPrice
     public int rentalPrice(Date start, Date end,Vehicle vehicle){
         int duration = date.calculateDuration(start, end);

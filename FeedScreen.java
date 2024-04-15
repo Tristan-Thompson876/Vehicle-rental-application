@@ -2,27 +2,28 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class FeedScreen extends JFrame {
     private String uname;
-    Management management;
+    private Management management;
     private JTable vehicleTable;
     private JTextField filterTextField;
     private JButton filterButton;
-    private List<Vehicle> allVehicles; // This should be initialized with your vehicle data
+    //private List<Vehicle> allVehicles; // This should be initialized with your vehicle data
     private JFrame frame;
+    ArrayList<Vehicle> vehicles;
 
     public FeedScreen(String uname, JFrame frame, Management management) {
         this.uname = uname;
         this.frame = frame;
         this.management = management;
+        this.vehicles = management.getVehicles();
 
-        // Initialize allVehicles with the provided list
-        //this.allVehicles = vehicles;
-
+       
 
         // Set up the frame
         setTitle("Vehicle Rental Service");
@@ -30,43 +31,59 @@ public class FeedScreen extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // Navigation panel
+    
+        
+        JLabel titleLabel = new JLabel("Vehicles");
         JPanel mainPanel = new JPanel();
-        JPanel navigationPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel navigationPanel = new JPanel();
+        navigationPanel.setLayout(new BoxLayout(navigationPanel, BoxLayout.Y_AXIS));
+        navigationPanel.add(titleLabel);
+       
         JPanel feedPanel = new JPanel();
-        feedPanel.setLayout(new BoxLayout(feedPanel, BoxLayout.Y_AXIS)); 
-        filterTextField = new JTextField(20);
-        filterButton = new JButton("Filter");
-        //filterButton.addActionListener(e -> filterVehicles());
-        mainPanel.add(navigationPanel);
-        mainPanel.add(feedPanel);
-        navigationPanel.add(filterTextField);
-        navigationPanel.add(filterButton);
-
-
+        feedPanel.setLayout(new GridLayout(0,3)); 
+        
+        /* 
         for (Vehicle v : management.getVehicles()) {
-                JPanel vehiclePanel = createVehiclePanel(v);
+            JPanel vehiclePanel = createVehiclePanel(v);
+            feedPanel.add(vehiclePanel); 
+        }*/
+
+
+        System.out.println("lets start here");
+        if(!vehicles.isEmpty()){
+            System.out.println("The problem is here");
         }
-        // Vehicle display panel
-        //vehicleTable = new JTable();
-        //vehicleTable.setModel(new DefaultTableModel(new Object[]{"Make & Model", "Seats", "Rental Price", "Available"}, 0));
-        //JScrollPane scrollPane = new JScrollPane(vehicleTable);
+        //ArrayList<Vehicle> vehicles = management.getVehicles();
+        showAllVehicles(vehicles, feedPanel);
 
-        //add(navigationPanel, BorderLayout.NORTH);
-        //add(scrollPane, BorderLayout.CENTER);
+        System.out.println("baii");
 
+        JScrollPane scrollPane = new JScrollPane(feedPanel);
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
+
+        //filterTextField = new JTextField(20);
+        filterButton = new JButton("Filter");
+        filterButton.addActionListener(e -> filterVehicles());
+        //mainPanel.add(navigationPanel);
+        //navigationPanel.add(filterTextField);
+        navigationPanel.add(filterButton);
+        //mainPanel.add(feedPanel);
+
+        add(navigationPanel, BorderLayout.NORTH);
+        add(mainPanel, BorderLayout.CENTER);
         setVisible(true);
     }
 
-    /* 
+    
     private void filterVehicles() {
         String searchText = filterTextField.getText().toLowerCase();
-        List<Vehicle> filteredVehicles = allVehicles.stream()
+        List<Vehicle> filteredVehicles = vehicles.stream()
                 .filter(v -> v.getMakeModel().toLowerCase().contains(searchText))
                 .collect(Collectors.toList());
-        updateVehicleTable(filteredVehicles);
-    }*/
+        //updateVehicleTable(filteredVehicles);
+    }
 
+    /* 
     private void updateVehicleTable(List<Vehicle> vehicles) {
         DefaultTableModel model = (DefaultTableModel) vehicleTable.getModel();
         model.setRowCount(0); // Clear existing data
@@ -74,26 +91,38 @@ public class FeedScreen extends JFrame {
             String availability = v.isAvailable() ? "Yes" : "No";
             model.addRow(new Object[]{v.getMakeModel(), v.getSeats(), v.getRentalPrice(), availability});
         }
-    }
-
-    /*
-
-    public void showAllVehicles(ArrayList<Vehicle> vehicles){
-        //uses  vehicle to show vehicle beside image
-        for(Vehicle v: vehicles){
-            createVehiclePanel(v);
-        }
-       
     }*/
 
+    
+
+    public void showAllVehicles(ArrayList<Vehicle> vehicles, JPanel feedPanel) {
+        if(!vehicles.isEmpty()){
+            System.out.println("lets see");
+            for (Vehicle v : vehicles) {
+                //System.out.println("Vehicle: " + v.getMakeModel());
+                System.out.println("woii");
+                feedPanel.add(createVehiclePanel(v));
+                System.out.println("no up more");
+            }
+            feedPanel.revalidate();
+            feedPanel.repaint();
+        }
+        else {
+            System.out.println("No vehicles to display.");
+        }
+    }
+
     public JPanel createVehiclePanel(Vehicle vehicle){
-        //in this method A vehicle will be placed on a panel with model/name, image then 
-        //quality, seats, rentalPrice, available and a button to rent
+        System.out.println("in create vehicle");
         JPanel vehiclePanel = new JPanel();
         
         JLabel nameLabel = new JLabel("Model/Name: " + vehicle.getMakeModel());
+        System.out.println("right here");
         ImageIcon vehicleImage = loadImageForVehicle(vehicle);
-        JLabel imageLabel = new JLabel(vehicleImage);
+        JLabel imageLabel = new JLabel();
+        imageLabel.setIcon(vehicleImage);
+        imageLabel.setPreferredSize(new Dimension(200, 150));
+
         JLabel seatsLabel = new JLabel("Seats: " + vehicle.getSeats());
         JLabel qualityLabel = new JLabel("Quality: " + vehicle.getQuality());
         JLabel priceLabel = new JLabel("Rental Price: $" + vehicle.getRentalPrice());
@@ -110,15 +139,11 @@ public class FeedScreen extends JFrame {
     }
 
     private static ImageIcon loadImageForVehicle(Vehicle vehicle) {
-        // Load the image based on vehicle information
-        // Return an ImageIcon
-        // Example: return new ImageIcon("path/to/vehicle_image.png");
-        return null;
+        String imagePath = "images/" + vehicle.getMakeModel() + ".jpg";
+        System.out.println("Image path: " + imagePath);
+        ImageIcon icon = new ImageIcon(imagePath);
+        
+        return icon;
     }
 
-   /* // Main method for demonstration purposes
-    public static void main(String[] args) {
-        // Here you should pass the actual list of vehicles to the FeedScreen
-        new FeedScreen( yourListOfVehicles );
-    }*/
 }
