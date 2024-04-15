@@ -23,6 +23,14 @@ public class Management {
     Date date;
     private User whosloggedin;
 
+
+     /**
+     * Constructs a Management object.
+     * Initializes empty lists of vehicles and users, and sets the currently logged-in user to null.
+     * Upon creation, it loads existing user data from a file and populates the users list.
+     * Additionally, it loads existing vehicle data from a file and populates the vehicles list.
+     */
+    
     public Management(){
         vehicles = new ArrayList<Vehicle>();
         users = new ArrayList<User>();  

@@ -19,6 +19,7 @@ public class Vehicle {
      * @param rentalPrice the rental price of the vehicle
      * @param available   indicates whether the vehicle is available for rental or not
      */
+    
     public Vehicle(String makeModel, String quality, int seats, int rentalPrice, boolean available) {
         this.makeModel = makeModel;
         this.quality = quality;
