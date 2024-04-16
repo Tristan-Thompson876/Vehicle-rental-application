@@ -122,4 +122,9 @@ public class User implements Serializable{
         System.out.println("Name: " + name);
         System.out.println("Budget: " + budget);
     }
+
+    public boolean isAdmin() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isAdmin'");
+    }
 }

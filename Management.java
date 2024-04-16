@@ -251,8 +251,8 @@ public class Management {
     
     
     //Gets RentalPrice
-    public int rentalPrice(Date start, Date end,Vehicle vehicle){
-        int duration = date.calculateDuration(start, end);
+    public int rentalPrice(Date startDate, Date endDate,Vehicle vehicle){
+        int duration = date.calculateDuration(startDate, endDate);
         int rentalPrice= vehicle.getRentalPrice() * duration;
         return rentalPrice;
     }
@@ -309,5 +309,10 @@ public class Management {
         
     }
      //updateFeedPanel();
+    }
+
+    public void rentVehicle(java.util.Date date1, java.util.Date date2, Vehicle vehicle) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'rentVehicle'");
     }
 }
