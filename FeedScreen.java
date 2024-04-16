@@ -16,6 +16,7 @@ public class FeedScreen extends JFrame {
     private JButton filterButton;
     //private List<Vehicle> allVehicles; // This should be initialized with your vehicle data
     private JFrame frame;
+    private JComboBox<String> filterComboBox;
     ArrayList<Vehicle> vehicles;
 
     public FeedScreen(String uname, JFrame frame, Management management) {
@@ -44,6 +45,13 @@ public class FeedScreen extends JFrame {
         JPanel feedPanel = new JPanel();
         feedPanel.setLayout(new GridLayout(0,3)); 
         
+        
+        filterTextField = new JTextField(20);
+        filterButton = new JButton("Filter");
+        
+
+        String[] filterOptions = {"Price High to Low", "Price Low to High", "Seats Large to Small"};
+        filterComboBox = new JComboBox<>(filterOptions);
         /* 
         for (Vehicle v : management.getVehicles()) {
             JPanel vehiclePanel = createVehiclePanel(v);
@@ -96,7 +104,6 @@ public class FeedScreen extends JFrame {
         }
     }*/
 
-    
 
     public void showAllVehicles(ArrayList<Vehicle> vehicles, JPanel feedPanel) {
         if(!vehicles.isEmpty()){
@@ -145,10 +152,39 @@ public class FeedScreen extends JFrame {
         vehiclePanel.add(seatsLabel);
         vehiclePanel.add(priceLabel);
         vehiclePanel.add(rentButton);
+        vehiclePanel.add(filterButton);
     
         return vehiclePanel;
     }
 
+    private void applyFilter(String selectedFilter) {
+        switch (selectedFilter) {
+            case "Price High to Low":
+                management.sortBy("PriceHighLow", "");
+                break;
+            case "Price Low to High":
+                management.sortBy("PriceLowHigh", "");
+                break;
+            case "Seats Large to Small":
+                management.sortBy("SizeLargestSmall", "");
+                break;
+            case "Lowend Quality":
+                management.sortBy("Quality", "lowend");
+                break;
+            case "MidRange Quality":
+                management.sortBy("Quality", "midrange");
+                break;
+            case "HighEnd Quality":
+                management.sortBy("Quality", "highend");
+                break;
+            default:
+                // Handle unknown filter option
+                break;
+        }
+    }
+    
+    
+    
     public static ActionListener rentButtonActionListener() {
         return new ActionListener() {
             @Override
