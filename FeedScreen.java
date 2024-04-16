@@ -8,6 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+/**
+ * The FeedScreen class creates and manages the GUI for the vehicle rental service,
+ * allowing users to view, filter, and rent vehicles.
+ */
 public class FeedScreen extends JFrame {
     private String uname;
     private Management management;
@@ -18,7 +23,13 @@ public class FeedScreen extends JFrame {
     private JFrame frame;
     private JComboBox<String> filterComboBox;
     ArrayList<Vehicle> vehicles;
-
+     /**
+     * Constructs a FeedScreen object to display vehicle information.
+     *
+     * @param uname The username of the user.
+     * @param frame The main JFrame of the application.
+     * @param management A management object handling vehicle operations.
+     */
     public FeedScreen(String uname, JFrame frame, Management management) {
         this.uname = uname;
         this.frame = frame;
@@ -85,7 +96,9 @@ public class FeedScreen extends JFrame {
         setVisible(true);
     }
 
-    
+    /**
+     * Filters the displayed vehicles based on the text entered in the filterTextField.
+     */
     private void filterVehicles() {
         String searchText = filterTextField.getText().toLowerCase();
         List<Vehicle> filteredVehicles = vehicles.stream()
@@ -104,7 +117,12 @@ public class FeedScreen extends JFrame {
         }
     }*/
 
-
+    /**
+     * Displays all available vehicles in the feed panel.
+     *
+     * @param vehicles The list of vehicles to display.
+     * @param feedPanel The panel where vehicles are displayed.
+     */
     public void showAllVehicles(ArrayList<Vehicle> vehicles, JPanel feedPanel) {
         if(!vehicles.isEmpty()){
             System.out.println("lets see");
@@ -126,7 +144,12 @@ public class FeedScreen extends JFrame {
             System.out.println("No vehicles to display.");
         }
     }
-
+    /**
+     * Creates a JPanel for each vehicle containing its details and a rent button.
+     *
+     * @param vehicle The vehicle for which to create the panel.
+     * @return The vehicle panel.
+     */
     public JPanel createVehiclePanel(Vehicle vehicle) {
         JPanel vehiclePanel = new JPanel();
         vehiclePanel.setLayout(new BoxLayout(vehiclePanel, BoxLayout.Y_AXIS)); // Vertical layout
@@ -156,7 +179,12 @@ public class FeedScreen extends JFrame {
     
         return vehiclePanel;
     }
-
+    /**
+     * Applies a selected filter to the list of vehicles. The method changes the sorting or filtering
+     * of vehicles based on the given criteria such as price or seat capacity.
+     * 
+     * @param selectedFilter The filter to apply, represented as a string indicating the type of filter.
+     */
     private void applyFilter(String selectedFilter) {
         switch (selectedFilter) {
             case "Price High to Low":
@@ -183,7 +211,12 @@ public class FeedScreen extends JFrame {
         }
     }
     
-    
+    /**
+     * Returns an action listener that is used for the rent button. This listener will open a new frame
+     * to complete the rental process.
+     * 
+     * @return An ActionListener that defines the behavior when the rent button is clicked.
+     */
     
     public static ActionListener rentButtonActionListener() {
         return new ActionListener() {
@@ -217,7 +250,12 @@ public class FeedScreen extends JFrame {
     }
     
     
-
+    /**
+     * Loads an image icon for a given vehicle. The path is constructed based on the vehicle's make and model.
+     * 
+     * @param vehicle The vehicle for which the image should be loaded.
+     * @return ImageIcon representing the vehicle.
+     */
     private static ImageIcon loadImageForVehicle(Vehicle vehicle) {
         String imagePath = "images/" + vehicle.getMakeModel() + ".jpg";
         System.out.println("Image path: " + imagePath);

@@ -6,7 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-
+/**
+ * The LoginScreen class provides a GUI for user authentication.
+ * It supports both login and sign-up  for a vehicle rental service application.
+ */
 public class LoginScreen extends JFrame {
     //protected HashMap<String, String> LoginInfo = new HashMap<String, String>();
     protected JFrame frame;
@@ -41,9 +44,9 @@ public class LoginScreen extends JFrame {
    
 
     /**
+     * Constructs a LoginScreen object to manage user login and registration.
      * 
-     * @param social
-     * constructor for loginscreen
+     * @param management The management object handling user operations.
      */
     public LoginScreen(Management management){
         this.frame = this;
@@ -83,7 +86,10 @@ public class LoginScreen extends JFrame {
         
         // Add the label to your panel
         loginPanel.add(errorLabel);
-
+        
+    /**
+     * Configures the action listeners for the interactive components of the login screen.
+     */
         Signup.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
