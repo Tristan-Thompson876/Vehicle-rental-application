@@ -286,14 +286,28 @@ public class Management {
         Collections.sort(vehicles, Comparator.comparingInt(Vehicle::getSeats).reversed());
     }
 
-    // Sort list to include only costs lesser or equal to minimum 
-    public void sortByMinimumCost(int minimum){
-       vehicles.removeIf(vehicle -> vehicle.getRentalPrice() > minimum);
+    // Sort list vehicles by size largest to smallest
+    public void sortBySizeSmallLargest(){
+        Collections.sort(vehicles, Comparator.comparingInt(Vehicle::getSeats));
     }
 
-    // Sort list to include only costs greater or equal to maximum 
-    public void sortByMaximumCost(int maximum){
-        vehicles.removeIf(vehicle -> vehicle.getRentalPrice() < maximum);
-    }
 
+    public void sortBy(String sortBy, String quality) {
+        switch (sortBy) {
+            case "PriceHighLow":
+            Collections.sort(vehicles, Comparator.comparingDouble(Vehicle::getRentalPrice).reversed());
+            break;
+        case "PriceLowHigh":
+            Collections.sort(vehicles, Comparator.comparingDouble(Vehicle::getRentalPrice));
+            break;
+        case "SizeLargestSmall":
+            Collections.sort(vehicles, Comparator.comparingInt(Vehicle::getSeats).reversed());
+            break;
+        case "SizeSmallLargest":
+            Collections.sort(vehicles, Comparator.comparingInt(Vehicle::getSeats));
+            break;
+        
+    }
+     //updateFeedPanel();
+    }
 }
