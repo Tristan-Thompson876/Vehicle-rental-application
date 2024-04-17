@@ -154,6 +154,7 @@ public class FeedScreen extends JFrame {
 
         add(navigationPanel, BorderLayout.NORTH);
         add(mainPanel, BorderLayout.CENTER);
+        add(scrollPane);
         setVisible(true);
     }
 

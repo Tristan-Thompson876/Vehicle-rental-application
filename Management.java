@@ -8,6 +8,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -325,12 +327,28 @@ public class Management {
  * @param vehicle the vehicle being rented.
  * @return the total rental price.
  */
+/* 
     public int rentalPrice(Date startDate, Date endDate,Vehicle vehicle){
         int duration = date.calculateDuration(startDate, endDate);
         int rentalPrice= vehicle.getRentalPrice() * duration;
         return rentalPrice;
-    }
+    }*/
 
+    /**
+     * Calculates the total rental price based on the start and end dates and the daily rental price of the vehicle.
+     *
+     * @param startDate The start date of the rental period.
+     * @param endDate The end date of the rental period.
+     * @param vehicle The vehicle being rented.
+     * @return The total rental price.
+     */
+    public int rentalPrice(Date startDate, Date endDate, Vehicle vehicle) {
+        LocalDate start = LocalDate.of(startDate.getYear(), startDate.getMonth(), startDate.getDay());
+        LocalDate end = LocalDate.of(endDate.getYear(), endDate.getMonth(), endDate.getDay());
+        long days = ChronoUnit.DAYS.between(start, end); // Calculate the duration in days
+        int rentalPrice = vehicle.getRentalPrice() * (int) days; // Calculate the total rental price
+        return rentalPrice;
+    }
 
     /**
      * Rents a vehicle if it is available, marking it as unavailable and printing the rental details.
@@ -339,6 +357,25 @@ public class Management {
      * @param endDate The end date of the rental period.
      * @param vehicle The vehicle to rent.
      */
+    public void rentVehicle(Date startDate, Date endDate, Vehicle vehicle) {
+        if (vehicle.isAvailable()) { // Check if the vehicle is available for rent
+            vehicle.setAvailable(false); // Mark the vehicle as unavailable
+            int rentalPrice = rentalPrice(startDate, endDate, vehicle); // Calculate the rental price
+            System.out.println("Vehicle rented successfully:");
+            System.out.println(vehicle);
+            System.out.println("Rental Price: " + rentalPrice);
+        } else {
+            System.out.println("Sorry, the vehicle is not available for rent.");
+        }
+    }
+
+    /**
+     * Rents a vehicle if it is available, marking it as unavailable and printing the rental details.
+     *
+     * @param startDate The start date of the rental period.
+     * @param endDate The end date of the rental period.
+     * @param vehicle The vehicle to rent.
+     *//*
     public void rentVehicle(Date startDate, Date endDate, Vehicle vehicle) {
         if (vehicle.isAvailable()) { 
             vehicle.setAvailable(false);
@@ -350,6 +387,8 @@ public class Management {
             System.out.println("Sorry, the vehicle is not available for rent.");
         }
     }
+
+     */
 
     /**
      * Sorts the list of vehicles by rental price in descending order (high to low).
@@ -416,11 +455,6 @@ public class Management {
         
     }
      //updateFeedPanel();
-    }
-
-    public void rentVehicle(java.util.Date date1, java.util.Date date2, Vehicle vehicle) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'rentVehicle'");
     }
 
    /* spublic void loadAdmin(String filePath) {

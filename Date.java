@@ -25,6 +25,18 @@ public class Date {
    this.date = LocalDate.of(year, month, day);
    }
 
+  public int getYear() {
+      return year;
+  }
+
+  public int getMonth() {
+      return month;
+  }
+
+  public int getDay() {
+      return day;
+  }
+
   /*
    * dateIsValid :
    * 
@@ -103,9 +115,9 @@ public boolean isleapyear(){
  * @param date2 the ending date
  * @return the duration in days
  */
-public static int calculateDuration(java.util.Date date1, java.util.Date date2) {
-    Period period = Period.between(date1.date, date2.date);
-    return period.getDays();
+public static int calculateDuration(Date date1, Date date2) {
+  Period period = Period.between(date1.date, date2.date);
+  return period.getDays();
 }
 
 /**
