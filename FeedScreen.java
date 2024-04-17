@@ -19,12 +19,14 @@ public class FeedScreen extends JFrame {
     private JTextField filterTextField;
     private JButton filterButton;
     private JButton newVehicleButton;
+    private JButton editVehicleButton;
     private JTextField dateField1;
     private JTextField dateField2;
     JTextField budgetField;
     private Vehicle currentVehicle;
     private JPanel navigationPanel = new JPanel();
     private JPanel filterPanel = new JPanel();
+    private JPanel buttonPanel = new JPanel();
     JPanel feedPanel = new JPanel();
 
     JRadioButton priceHighToLowCheckbox = new JRadioButton();
@@ -94,9 +96,12 @@ public class FeedScreen extends JFrame {
         navigationPanel.add(sizeLargestToSmallestCheckbox);
         navigationPanel.add(smallLarge);
         navigationPanel.add(sizeSmallestToLargestCheckbox);
+
+        navigationPanel.add(buttonPanel);
         //filterTextField = new JTextField(20);
         filterButton = new JButton("Filter");
         newVehicleButton = new JButton("New");
+        editVehicleButton = new JButton("Edit");
         
 
         String[] filterOptions = {"Price High to Low", "Price Low to High", "Seats Large to Small"};
@@ -120,16 +125,19 @@ public class FeedScreen extends JFrame {
 
         JScrollPane scrollPane = new JScrollPane(feedPanel);
         mainPanel.add(scrollPane, BorderLayout.CENTER);
+        //feedPanel.add(scrollPane, BorderLayout.CENTER);
 
         //filterTextField = new JTextField(20);
         //filterButton = new JButton("Filter");
         filterButton.addActionListener(filterListener());
-        //filterButton.addActionListener(e -> filterVehicles());
         newVehicleButton.addActionListener(newVehicle(this, currentUser));
+        editVehicleButton.addActionListener(editVehicleListener());
+
         //mainPanel.add(navigationPanel);
         //navigationPanel.add(filterTextField);
-        navigationPanel.add(filterButton);
-        navigationPanel.add(newVehicleButton);
+        buttonPanel.add(filterButton);
+        buttonPanel.add(newVehicleButton);
+        buttonPanel.add(editVehicleButton);
         //mainPanel.add(feedPanel);
 
         add(navigationPanel, BorderLayout.NORTH);
@@ -139,9 +147,23 @@ public class FeedScreen extends JFrame {
 
 
     
+    private ActionListener editVehicleListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Vehicle v = management.findVehicle(currentVehicle);
+
+    
+            }
+        };
+    }
+
+
+
     private ArrayList<Vehicle> filterVehicles() {
         ArrayList<Vehicle> filteredVehicles = new ArrayList<>();
                 //navigationPanel.add(filterPanel);
+                //filterButton.setEnabled(true);
                 navigationPanel.add(filterButton);
                 //filterPanel.removeAll();
 
@@ -191,6 +213,8 @@ public class FeedScreen extends JFrame {
 
                 ArrayList<Vehicle> filtered = filterVehicles();
                 showAllVehicles(filtered, feedPanel);
+                filterButton.setEnabled(true);
+                buttonPanel.add(filterButton);
             }
         };
     }
@@ -225,6 +249,7 @@ public class FeedScreen extends JFrame {
             }
             feedPanel.revalidate();
             feedPanel.repaint();
+            
         }
         else {
             System.out.println("No vehicles to display.");

@@ -22,9 +22,9 @@ Available: true
 [Vehicle]
 MakeModel: Honda Stepwagon
 Quality: MidRange
-Seats:7
+Seats: 7
 RentalPrice: 18500
-Available: false
+Available: true
 
 [Vehicle]
 MakeModel: Audi Q7

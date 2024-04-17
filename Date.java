@@ -99,12 +99,12 @@ public boolean isleapyear(){
 /**
  * Calculates the duration in days between two dates.
  *
- * @param start the starting date
- * @param end the ending date
+ * @param date1 the starting date
+ * @param date2 the ending date
  * @return the duration in days
  */
-public static int calculateDuration(Date start, Date end) {
-    Period period = Period.between(start.date, end.date);
+public static int calculateDuration(java.util.Date date1, java.util.Date date2) {
+    Period period = Period.between(date1.date, date2.date);
     return period.getDays();
 }
 
@@ -139,6 +139,8 @@ public String formatDate(String pattern) {
     String date =( year + "/" + month + "/" + day);
       return date;
   }
+
+
 
 
 }
