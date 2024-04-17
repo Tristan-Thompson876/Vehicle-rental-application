@@ -284,6 +284,7 @@ public class Management {
         return vehicles;
     }
 
+    //
     // Sort list vehicles by size largest to smallest
     public ArrayList<Vehicle> sortBySizeLargestSmall(){
         Collections.sort(vehicles, Comparator.comparingInt(Vehicle::getSeats).reversed());
