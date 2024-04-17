@@ -123,7 +123,7 @@ public class FeedScreen extends JFrame {
         //filterButton = new JButton("Filter");
         filterButton.addActionListener(filterListener());
         //filterButton.addActionListener(e -> filterVehicles());
-        newVehicleButton.addActionListener(e -> newVehicle());
+        newVehicleButton.addActionListener(newVehicle(this));
         //mainPanel.add(navigationPanel);
         //navigationPanel.add(filterTextField);
         navigationPanel.add(filterButton);
@@ -286,24 +286,87 @@ public class FeedScreen extends JFrame {
                 break;
         }
     }
-    public static ActionListener newVehicle() {
+
+    
+    public static ActionListener newVehicle(FeedScreen feedScreen) {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //create a new frame
-                if(management.findUser(uname).isAdmin()){
+                if (management.findUser(uname).isAdmin()) {
                     JFrame newVehicleFrame = new JFrame();
                     JPanel formJPanel = new JPanel();
-
+                    newVehicleFrame.setTitle("Add New Vehicle");
+                    newVehicleFrame.setSize(400, 300);
+    
+                    JLabel makeModelLabel = new JLabel("Make/Model:");
+                    JTextField makeModelField = new JTextField(20);
+                    JLabel qualityLabel = new JLabel("Quality:");
+                    JTextField qualityField = new JTextField(20);
+                    JLabel seatsLabel = new JLabel("Seats:");
+                    JTextField seatsField = new JTextField(20);
+                    JLabel rentalPriceLabel = new JLabel("Rental Price:");
+                    JTextField rentalPriceField = new JTextField(20);
+                    JLabel availableLabel = new JLabel("Available:");
+                    JTextField availableField = new JTextField(20);
+    
+                    JButton saveButton = new JButton("Save");
+    
+                    formJPanel.add(makeModelLabel);
+                    formJPanel.add(makeModelField);
+                    formJPanel.add(qualityLabel);
+                    formJPanel.add(qualityField);
+                    formJPanel.add(seatsLabel);
+                    formJPanel.add(seatsField);
+                    formJPanel.add(rentalPriceLabel);
+                    formJPanel.add(rentalPriceField);
+                    formJPanel.add(availableLabel);
+                    formJPanel.add(availableField);
+                    formJPanel.add(saveButton);
+    
                     newVehicleFrame.add(formJPanel);
-                    //should have labels and text field on the panel so that admin can enter vehicle info
-                    //these contents should be defined at the top under feedScreen class
-                    //a button to save vehicle info   
-                    //so they can be accessed in the action listener of the saved button
+                    newVehicleFrame.setVisible(true);
+    
+                    saveButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            // Retrieve entered data and save it
+                            String makeModel = makeModelField.getText();
+                            String quality = qualityField.getText();
+                            int seats = Integer.parseInt(seatsField.getText());
+                            int rentalPrice = Integer.parseInt(rentalPriceField.getText());
+                            boolean available = Boolean.parseBoolean(availableField.getText());
+    
+                            // Call method to save vehicle info through the feedScreen instance
+                            feedScreen.saveVehicleInfo(makeModel, quality, seats, rentalPrice, available);
+    
+                            // Close the frame after saving
+                            newVehicleFrame.dispose();
+                            
+                        }
+                    });
                 }
             }
         };
     }
+    
+    
+    
+
+
+    // Method to save vehicle information to the ArrayList
+    public void saveVehicleInfo(String makeModel, String quality, int seats, int rentalPrice, boolean available) {
+        // Create a new Vehicle object
+        Vehicle newVehicle = new Vehicle(makeModel, quality, seats, rentalPrice, available);
+        
+        // Add the new vehicle to the ArrayList
+        vehicles.add(newVehicle);
+        
+        // Print confirmation message
+        System.out.println("Vehicle information saved successfully:");
+        System.out.println(newVehicle);
+    }
+    
     
     
     
@@ -317,6 +380,7 @@ public class FeedScreen extends JFrame {
             }
         };
     }
+    //
 
     public void rentForm(Management management){
         JFrame rentformFrame = new JFrame();
@@ -417,4 +481,3 @@ public static JFrame createAppreciationPanel() {
 }
 
 //}
-//
