@@ -39,25 +39,43 @@ public class Management {
         User admin = new User(adminName = "Tristan", pass = "triss", 0, true);
         users.add(admin);
     }
-
+    /**
+     * Returns the currently logged-in user.
+     * @return the currently logged-in user
+     */
     public User getWhosloggedin() {
         return whosloggedin;
     }
-
+    
+    /**
+     * Returns a list of all users.
+     * @return an ArrayList of User objects
+     */
     public ArrayList<User> getUsers(){
         return users;
     }
-
+     /**
+     * Creates and adds a new user to the list.
+     * @param uname the username of the new user
+     * @param pword the password of the new user
+     */
     public void createUser(String uname, String pword){
         User user = new User(uname, pword, 0, false);
         addUser(user);
         saveUsers();
     }
-
+    /**
+     * Adds a user to the list and saves the list to a file.
+     * @param u the User to add
+     */
     public void addUser(User u){
         users.add(u);
     }
-
+    /**
+     * Finds a user by username.
+     * @param uname the username to search for
+     * @return the User object if found, null otherwise
+     */
     public User findUser(String uname) {
         for (User user : users) {
             if (user.getName().equals(uname)) {
@@ -66,8 +84,9 @@ public class Management {
         }
         return null; 
     }
-
-     // Save users to a file
+     /**
+     * Saves the list of users to a file.
+     */
      private void saveUsers() {
         try {
             FileOutputStream fileOut = new FileOutputStream(new File("USERS_FILE.txt"));
@@ -80,7 +99,10 @@ public class Management {
         }
     }
 
-    // Load users from a file
+  
+    /**
+     * Loads the list of users from a file.
+     */
     @SuppressWarnings("unchecked") // Suppressing unchecked cast warning
     private void loadUsers() {
         try {
@@ -95,7 +117,12 @@ public class Management {
         }
     }
 
-
+    /**
+     * Checks if the provided username and password match for a user.
+     * @param uname the username
+     * @param pword the password
+     * @return true if credentials match, false otherwise
+     */
     public boolean isPasswordCorrect(String uname, String pword){
         User u = findUser(uname);
         if(u.getPassword().equals(pword)){
@@ -104,6 +131,11 @@ public class Management {
         return false;
 
     }
+    /**
+     * Logs in a user if the username exists and the password matches.
+     * @param uname the username
+     * @param pword the password
+     */
     public void login(String uname, String pword){
         if(isAUser(uname)){
             if(isPasswordCorrect(uname, pword)){
@@ -115,7 +147,11 @@ public class Management {
         }
 
     }
-
+ /**
+ * Checks if a user exists in the user list.
+ * @param name the username to check.
+ * @return true if the user exists, false otherwise.
+ */
     public boolean isAUser(String name){
         for(User user: users){
             if(user.getName().equals(name)){
@@ -127,17 +163,27 @@ public class Management {
 
 
 
-    //adds a vehicle to arraylist
+    /**
+ * Adds a vehicle to the vehicle list.
+ * @param v the vehicle to add.
+ */
     public void addVehicle(Vehicle v){
         vehicles.add(v);
     }
 
-    //removes a vehicle from arraylist
+   /**
+ * Removes a vehicle from the vehicle list.
+ * @param v the vehicle to remove.
+ */
     public void removeVehicle(Vehicle v){
         vehicles.remove(v);
     }
 
-    // Find a specific vehicle by reference
+   /**
+ * Finds and returns a vehicle by reference.
+ * @param v the vehicle to find.
+ * @return the vehicle if found, null otherwise.
+ */
     public Vehicle findVehicle(Vehicle v){
         for(Vehicle vehicle : vehicles){
             if(vehicle.equals(v)){
@@ -147,7 +193,9 @@ public class Management {
         return null;
     }
 
-    // List all vehicles
+/**
+ * Prints all vehicles in the vehicle list to the console.
+ */
     public void listAllVehicles(){
         for(Vehicle vehicle : vehicles){
             System.out.println(vehicle);
@@ -155,7 +203,14 @@ public class Management {
     }
 
     
-    // Create a new vehicle and add it to the list
+  /**
+ * Creates a new vehicle and adds it to the list of vehicles.
+ * @param makeModel the make and model of the vehicle.
+ * @param quality the quality of the vehicle.
+ * @param seats the number of seats in the vehicle.
+ * @param rentalPrice the rental price per day.
+ * @param available the availability status of the vehicle.
+ */
     public void createVehicle(String makeModel, String quality, int seats, int rentalPrice, boolean available) {
         Vehicle vehicle = new Vehicle(makeModel, quality, seats, rentalPrice, available);
         addVehicle(vehicle);
@@ -163,7 +218,9 @@ public class Management {
     }
     
  
-     // Save vehicles to a file
+/**
+ * Saves the current list of vehicles to a file.
+ */
      private void saveVehicles() {
          try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("vehicle.txt"))) {
              oos.writeObject(vehicles);
@@ -172,6 +229,7 @@ public class Management {
          }
      }
  
+     
      public ArrayList<Vehicle> getVehicles() {
         System.out.println("vehicles");
         vehicles = loadVehicles("vehicle.txt");
@@ -201,6 +259,12 @@ public class Management {
         }
         return vehicles;
     }*/
+
+/**
+ * Loads vehicles from a specified file.
+ * @param filePath the path to the file from which vehicles are loaded.
+ * @return a list of loaded vehicles.
+ */
     public static ArrayList<Vehicle> loadVehicles(String filePath) {
         ArrayList<Vehicle> vehicles = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
@@ -254,7 +318,13 @@ public class Management {
     }
     
     
-    //Gets RentalPrice
+/**
+ * Calculates the total rental price based on the start and end dates and the daily rental price of the vehicle.
+ * @param startDate the start date of the rental period.
+ * @param endDate the end date of the rental period.
+ * @param vehicle the vehicle being rented.
+ * @return the total rental price.
+ */
     public int rentalPrice(Date startDate, Date endDate,Vehicle vehicle){
         int duration = date.calculateDuration(startDate, endDate);
         int rentalPrice= vehicle.getRentalPrice() * duration;
@@ -262,7 +332,13 @@ public class Management {
     }
 
 
-    // Rent a vehicle
+    /**
+     * Rents a vehicle if it is available, marking it as unavailable and printing the rental details.
+     *
+     * @param startDate The start date of the rental period.
+     * @param endDate The end date of the rental period.
+     * @param vehicle The vehicle to rent.
+     */
     public void rentVehicle(Date startDate, Date endDate, Vehicle vehicle) {
         if (vehicle.isAvailable()) { 
             vehicle.setAvailable(false);
@@ -275,33 +351,54 @@ public class Management {
         }
     }
 
-    // Sort list of vehicles by cost high to low
+    /**
+     * Sorts the list of vehicles by rental price in descending order (high to low).
+     *
+     * @return An ArrayList of vehicles sorted by price from highest to lowest.
+     */
     public ArrayList<Vehicle> sortByPriceHighLow(){
         //ArrayList<Vehicle> vehicles = Collections.sort(vehicles, Comparator.comparingDouble(Vehicle::getRentalPrice).reversed());
         Collections.sort(vehicles, Comparator.comparingDouble(Vehicle::getRentalPrice).reversed());
         return vehicles;
     }
 
-    // Sort list of vehicles by cost low to high
+        /**
+     * Sorts the list of vehicles by rental price in ascending order (low to high).
+     *
+     * @return An ArrayList of vehicles sorted by price from lowest to highest.
+     */
     public ArrayList<Vehicle> sortByPriceLowHigh(){
         Collections.sort(vehicles, Comparator.comparingDouble(Vehicle::getRentalPrice));
         return vehicles;
     }
 
     //
-    // Sort list vehicles by size largest to smallest
+    /**
+     * Sorts the list of vehicles by the number of seats in descending order (largest to smallest).
+     *
+     * @return An ArrayList of vehicles sorted by the number of seats from most to fewest.
+     */
     public ArrayList<Vehicle> sortBySizeLargestSmall(){
         Collections.sort(vehicles, Comparator.comparingInt(Vehicle::getSeats).reversed());
         return vehicles;
     }
-
-    // Sort list vehicles by size largest to smallest
+ /**
+     * Sorts the list of vehicles by the number of seats in ascending order (smallest to largest).
+     *
+     * @return An ArrayList of vehicles sorted by the number of seats from fewest to most.
+     */
     public ArrayList<Vehicle> sortBySizeSmallLargest(){
         Collections.sort(vehicles, Comparator.comparingInt(Vehicle::getSeats));
         return vehicles;
     }
 
-
+    
+    /**
+     * Sorts the list of vehicles based on the specified criteria.
+     *
+     * @param sortBy The criterion to sort by (e.g., "PriceHighLow", "PriceLowHigh", "SizeLargestSmall", "SizeSmallLargest").
+     * @param quality A filter to apply based on the quality (not used in current implementation).
+     */
     public void sortBy(String sortBy, String quality) {
         switch (sortBy) {
             case "PriceHighLow":
@@ -342,6 +439,12 @@ public class Management {
             e.printStackTrace(); 
         }
     }*/
+     /**
+     * Checks if a specified username belongs to an admin user.
+     *
+     * @param uname The username to check.
+     * @return true if the user with the given username has admin privileges, false otherwise.
+     */
     public boolean findAdmin(String uname) {
         //loadAdmin("Admin.txt");
 
