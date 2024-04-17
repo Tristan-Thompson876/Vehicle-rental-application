@@ -24,7 +24,6 @@ public class FeedScreen extends JFrame {
     private Vehicle currentVehicle;
     private JPanel navigationPanel = new JPanel();
     private JPanel filterPanel = new JPanel();
-    JPanel feedPanel = new JPanel();
 
     JRadioButton priceHighToLowCheckbox = new JRadioButton();
     JRadioButton priceLowToHighCheckbox = new JRadioButton();
@@ -74,8 +73,8 @@ public class FeedScreen extends JFrame {
         navigationPanel.setLayout(new GridLayout(5,2));
         //navigationPanel.add(titleLabel);
        
-        
-        feedPanel.setLayout(new GridLayout(0,2)); 
+        JPanel feedPanel = new JPanel();
+        feedPanel.setLayout(new GridLayout(0,3)); 
         
         buttonGroup.add(priceHighToLowCheckbox);
         buttonGroup.add(priceLowToHighCheckbox);
@@ -111,7 +110,7 @@ public class FeedScreen extends JFrame {
             System.out.println("The problem is here");
         }
         //ArrayList<Vehicle> vehicles = management.getVehicles();
-        showAllVehicles(filterVehicles(), feedPanel);
+        showAllVehicles(vehicles, feedPanel);
         
 
         System.out.println("baii");
@@ -121,8 +120,7 @@ public class FeedScreen extends JFrame {
 
         //filterTextField = new JTextField(20);
         //filterButton = new JButton("Filter");
-        filterButton.addActionListener(filterListener());
-        //filterButton.addActionListener(e -> filterVehicles());
+        filterButton.addActionListener(e -> filterVehicles());
         newVehicleButton.addActionListener(e -> newVehicle());
         //mainPanel.add(navigationPanel);
         //navigationPanel.add(filterTextField);
@@ -135,61 +133,39 @@ public class FeedScreen extends JFrame {
         setVisible(true);
     }
 
-
     
-    private ArrayList<Vehicle> filterVehicles() {
-        ArrayList<Vehicle> filteredVehicles = new ArrayList<>();
+    private void filterVehicles() {
+        String searchText = filterTextField.getText().toLowerCase();
+        ArrayList<Vehicle> filteredVehicles = vehicles;
+
+                //filter(v -> v.getMakeModel().toLowerCase().contains(searchText))
+                //.collect(Collectors.toList());
                 navigationPanel.add(filterPanel);
-                //filterPanel.removeAll();
-
-
-                if (!priceHighToLowCheckbox.isSelected() || 
-                !priceLowToHighCheckbox.isSelected() || 
-                !sizeLargestToSmallestCheckbox.isSelected() || 
-                !sizeSmallestToLargestCheckbox.isSelected()) {
-                    return vehicles;
-                }
-                else{
-
+                
                 boolean sortByPriceHighToLow = priceHighToLowCheckbox.isSelected();
                 boolean sortByPriceLowToHigh = priceLowToHighCheckbox.isSelected();
                 boolean sortBySizeLargestToSmallest = sizeLargestToSmallestCheckbox.isSelected();
                 boolean sortBySizeSmallestToLargest = sizeSmallestToLargestCheckbox.isSelected();
 
+                // Group 1: Price sorting (only one option can be selected)
                 if (sortByPriceHighToLow) {
-                    ArrayList<Vehicle> vs = management.sortByPriceHighLow();
+                    // Implement sorting by price high to low
                     // Add filtered vehicles to 'filteredVehicles'
-                    filteredVehicles = vs;
                 } else if (sortByPriceLowToHigh) {
-                    ArrayList<Vehicle> vs = management.sortByPriceLowHigh();
-                    filteredVehicles = vs;
+                    // Implement sorting by price low to high
                     // Add filtered vehicles to 'filteredVehicles'
                 }
 
                 // Group 2: Size sorting (only one option can be selected)
                 if (sortBySizeLargestToSmallest) {
-                    ArrayList<Vehicle> vs = management.sortBySizeLargestSmall();
-                    filteredVehicles = vs;
+                    // Implement sorting by size largest to smallest
                     // Add filtered vehicles to 'filteredVehicles'
                 } else if (sortBySizeSmallestToLargest) {
-                    ArrayList<Vehicle> vs = management.sortBySizeSmallLargest();
-                    filteredVehicles = vs;
+                    // Implement sorting by size smallest to largest
                     // Add filtered vehicles to 'filteredVehicles'
                 }
 
-                return filteredVehicles;
-            }
-    }
-
-    public ActionListener filterListener() {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                ArrayList<Vehicle> filtered = filterVehicles();
-                showAllVehicles(filtered, feedPanel);
-            }
-        };
+                //updateVehicleTable(filteredVehicles);
     }
 
     /* 
@@ -204,17 +180,15 @@ public class FeedScreen extends JFrame {
 
 
     public void showAllVehicles(ArrayList<Vehicle> vehicles, JPanel feedPanel) {
-        
-        if(!filterVehicles().isEmpty()){
+        if(!vehicles.isEmpty()){
             System.out.println("lets see");
             //JScrollPane scrollPane = new JScrollPane(feedPanel);
-            feedPanel.removeAll();
             GridLayout gridLayout = new GridLayout(3, 2);
             feedPanel.setLayout(gridLayout);
             //feedPanel.setMaximumSize(new Dimension(10000, Integer.MAX_VALUE));
             feedPanel.setMinimumSize(new Dimension(10000, Integer.MAX_VALUE));
             //feedPanel.add(scrollPane);
-            for (Vehicle v : filterVehicles()) {
+            for (Vehicle v : vehicles) {
                 //System.out.println("Vehicle: " + v.getMakeModel());
                 System.out.println("woii");
                 feedPanel.add(createVehiclePanel(v));
@@ -286,27 +260,70 @@ public class FeedScreen extends JFrame {
                 break;
         }
     }
+
+
     public static ActionListener newVehicle() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //create a new frame
-                if(management.findUser(uname).isAdmin()){
+                if (management.findUser(uname).isAdmin()) {
                     JFrame newVehicleFrame = new JFrame();
                     JPanel formJPanel = new JPanel();
-
+                    newVehicleFrame.setTitle("Add New Vehicle");
+                    newVehicleFrame.setSize(400, 300);
+    
+                    JLabel makeModelLabel = new JLabel("Make/Model:");
+                    JTextField makeModelField = new JTextField(20);
+                    JLabel qualityLabel = new JLabel("Quality:");
+                    JTextField qualityField = new JTextField(20);
+                    JLabel seatsLabel = new JLabel("Seats:");
+                    JTextField seatsField = new JTextField(20);
+                    JLabel rentalPriceLabel = new JLabel("Rental Price:");
+                    JTextField rentalPriceField = new JTextField(20);
+                    JLabel availabilityLabel = new JLabel("Availability:");
+                    JTextField availabilityField = new JTextField(20);
+    
+                    JButton saveButton = new JButton("Save");
+    
+                    formJPanel.add(makeModelLabel);
+                    formJPanel.add(makeModelField);
+                    formJPanel.add(qualityLabel);
+                    formJPanel.add(qualityField);
+                    formJPanel.add(seatsLabel);
+                    formJPanel.add(seatsField);
+                    formJPanel.add(rentalPriceLabel);
+                    formJPanel.add(rentalPriceField);
+                    formJPanel.add(availabilityLabel);
+                    formJPanel.add(availabilityField);
+                    formJPanel.add(saveButton);
+    
                     newVehicleFrame.add(formJPanel);
-                    //should have labels and text field on the panel so that admin can enter vehicle info
-                    //these contents should be defined at the top under feedScreen class
-                    //a button to save vehicle info   
-                    //so they can be accessed in the action listener of the saved button
+                    newVehicleFrame.setVisible(true);
+    
+                    saveButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            // Retrieve entered data and save it
+                            String makeModel = makeModelField.getText();
+                            String quality = qualityField.getText();
+                            int seats = Integer.parseInt(seatsField.getText());
+                            double rentalPrice = Double.parseDouble(rentalPriceField.getText());
+                            boolean availability = Boolean.parseBoolean(availabilityField.getText());
+    
+                            // Example: Call method to save vehicle info
+                            saveVehicleInfo(makeModel, quality, seats, rentalPrice, availability);
+    
+                            // Close the frame after saving
+                            newVehicleFrame.dispose();
+                        }
+                    });
                 }
             }
         };
     }
     
-    
-    
+ 
     public ActionListener rentButtonActionListener(Vehicle vehicle, Management management) {
         return new ActionListener() {
             @Override
@@ -415,5 +432,3 @@ public static JFrame createAppreciationPanel() {
 }
 
 }
-
-//}
