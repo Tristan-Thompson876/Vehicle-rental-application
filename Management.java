@@ -357,16 +357,22 @@ public class Management {
      * @param date2 The end date of the rental period.
      * @param vehicle The vehicle to rent.
      */
-    public void rentVehicle(java.util.Date date1, java.util.Date date2, Vehicle vehicle) {
+    public String rentVehicle(java.util.Date date1, java.util.Date date2, Vehicle vehicle, int budGet) {
+        String s = "";
         if (vehicle.isAvailable()) { // Check if the vehicle is available for rent
             vehicle.setAvailable(false); // Mark the vehicle as unavailable
             int rentalPrice = rentalPrice(date1, date2, vehicle); // Calculate the rental price
-            System.out.println("Vehicle rented successfully:");
-            System.out.println(vehicle);
-            System.out.println("Rental Price: " + rentalPrice);
+            if(rentalPrice <= budGet){
+                System.out.println("Vehicle rented successfully:");
+                System.out.println(vehicle);
+                System.out.println("Rental Price: " + rentalPrice);
+                s= "Vehicle rented successfully";
+            }
         } else {
             System.out.println("Sorry, the vehicle is not available for rent.");
+            s = "Sorry, the vehicle is not available for rent.";
         }
+        return s;
     }
 
     /**

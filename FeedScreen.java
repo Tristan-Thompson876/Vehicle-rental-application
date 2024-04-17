@@ -298,6 +298,7 @@ public class FeedScreen extends JFrame {
     
         JLabel space = new JLabel("      ");
         JLabel nameLabel = new JLabel("Model/Name: " + vehicle.getMakeModel());
+        nameLabel.setFont(new Font("Arial", Font.BOLD, 16));
         ImageIcon vehicleImage = loadImageForVehicle(vehicle);
         JLabel imageLabel = new JLabel(vehicleImage);
         imageLabel.setPreferredSize(new Dimension(200, 150));
@@ -505,11 +506,11 @@ public class FeedScreen extends JFrame {
 
                             
                             
-                            management.rentVehicle(date1, date2, currentVehicle);
+                            String s = management.rentVehicle(date1, date2, currentVehicle, budGet);
                             //JFrame appreciation = new JFrame();
                             //appreciation.add(createAppreciationPanel());
                             //appreciation.setDefaultCloseOperation(EXIT_ON_CLOSE);
-                            createAppreciationPanel(currentVehicle);
+                            createAppreciationPanel(currentVehicle, s );
                         }
                     };
                 }
@@ -534,19 +535,28 @@ public class FeedScreen extends JFrame {
  * 
  * @return JPanel with appreciation message displayed.
  */
-public static JFrame createAppreciationPanel(Vehicle vehicle) {
-    // Create a new JPanel
-    JFrame appreciationPanel = new JFrame();
-    appreciationPanel.setLayout(new BorderLayout()); // Use BorderLayout for better control over layout
+public static JFrame createAppreciationPanel(Vehicle vehicle, String s) {
+    
+    System.out.println("here");
+    JFrame appreciationFrame = new JFrame();
+    JPanel panel = new JPanel();
+    appreciationFrame.setLayout(new BorderLayout()); 
 
-    // Create a JLabel with a thank you message
+    
+    JLabel confirmation = new JLabel(s);
     JLabel thankYouLabel = new JLabel("Thank you for renting with us!", SwingConstants.CENTER);
-    thankYouLabel.setFont(new Font("Arial", Font.BOLD, 16)); // Set font for better visibility
+    thankYouLabel.setFont(new Font("Arial", Font.BOLD, 16)); 
 
     // Add the label to the panel
-    appreciationPanel.add(thankYouLabel, BorderLayout.CENTER);
+    panel.add(confirmation);
+    panel.add(thankYouLabel, BorderLayout.CENTER);
 
-    return appreciationPanel;
+    appreciationFrame.add(panel);
+    appreciationFrame.setSize(400, 300); 
+    appreciationFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+    appreciationFrame.setVisible(true); 
+
+    return appreciationFrame;
 }
 
 }
