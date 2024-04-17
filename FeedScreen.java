@@ -11,6 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+/**
+ * The FeedScreen class provides a graphical user interface for displaying and managing vehicle rentals.
+ * It allows users to filter, rent, and add new vehicles to the system.
+ */
+
 public class FeedScreen extends JFrame {
     private static String uname;
     private static Management management;
@@ -51,7 +57,13 @@ public class FeedScreen extends JFrame {
     private JFrame frame;
     private JComboBox<String> filterComboBox;
     ArrayList<Vehicle> vehicles;
-
+     /**
+     * Constructs the FeedScreen which initializes the user interface components and sets up event listeners.
+     *
+     * @param uname The username of the current user.
+     * @param frame The parent frame.
+     * @param management The management system handling vehicle and user operations.
+     */
     public FeedScreen(String uname, JFrame frame, Management management) {
         this.uname = uname;
         this.frame = frame;
@@ -138,7 +150,11 @@ public class FeedScreen extends JFrame {
     }
 
 
-    
+     /**
+     * Filters vehicles based on selected criteria from checkboxes.
+     *
+     * @return A list of filtered vehicles.
+     */
     private ArrayList<Vehicle> filterVehicles() {
         ArrayList<Vehicle> filteredVehicles = new ArrayList<>();
                 //navigationPanel.add(filterPanel);
@@ -183,7 +199,11 @@ public class FeedScreen extends JFrame {
                 return filteredVehicles;
             }
     }
-
+     /**
+     * Creates an ActionListener that filters vehicles when the filter button is pressed.
+     *
+     * @return An ActionListener that updates the vehicle display based on filters.
+     */
     public ActionListener filterListener() {
         return new ActionListener() {
             @Override
@@ -205,7 +225,13 @@ public class FeedScreen extends JFrame {
         }
     }*/
 
-
+    
+    /**
+     * Displays all vehicles in the feed panel.
+     *
+     * @param vehicles The list of vehicles to display.
+     * @param feedPanel The panel where vehicles are displayed.
+     */
     public void showAllVehicles(ArrayList<Vehicle> vehicles, JPanel feedPanel) {
         
         if(!filterVehicles().isEmpty()){
@@ -230,7 +256,12 @@ public class FeedScreen extends JFrame {
             System.out.println("No vehicles to display.");
         }
     }
-
+      /**
+     * Creates a panel for a single vehicle, showing details and an option to rent.
+     *
+     * @param vehicle The vehicle to create a panel for.
+     * @return The JPanel representing the vehicle.
+     */
     public JPanel createVehiclePanel(Vehicle vehicle) {
         JPanel vehiclePanel = new JPanel();
         vehiclePanel.setLayout(new BoxLayout(vehiclePanel, BoxLayout.Y_AXIS)); // Vertical layout
@@ -454,7 +485,12 @@ public class FeedScreen extends JFrame {
                 }
     
 
-
+    /**
+     * Loads an image icon for a given vehicle based on its make and model.
+     *
+     * @param vehicle The vehicle for which the image should be loaded.
+     * @return ImageIcon representing the vehicle.
+     */
     private static ImageIcon loadImageForVehicle(Vehicle vehicle) {
         String imagePath = "images/" + vehicle.getMakeModel() + ".jpg";
         System.out.println("Image path: " + imagePath);
