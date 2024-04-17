@@ -15,8 +15,6 @@ public class LoginScreen extends JFrame {
     protected JFrame frame;
     FeedScreen feed;
     Management management;
-    
-
 
     
     JPanel loginPanelInfo = new JPanel();

@@ -20,6 +20,7 @@ import java.util.Comparator;
 public class Management {
     private ArrayList<Vehicle> vehicles;
     private ArrayList<User> users;
+    //private ArrayList<Admin> admins;
     Date date;
     private User whosloggedin;
 
@@ -29,11 +30,14 @@ public class Management {
      * Initializes empty lists of vehicles and users, and sets the currently logged-in user to null.
      * Upon creation, it loads existing user data from a file and populates the users list.
      * Additionally, it loads existing vehicle data from a file and populates the vehicles list.
-     */
-    
+     */   
     public Management(){
         vehicles = new ArrayList<Vehicle>();
         users = new ArrayList<User>();  
+        String adminName;
+        String pass;
+        User admin = new User(adminName = "Tristan", pass = "triss", 0, true);
+        users.add(admin);
     }
 
     public User getWhosloggedin() {
@@ -45,7 +49,7 @@ public class Management {
     }
 
     public void createUser(String uname, String pword){
-        User user = new User(uname, pword, 0);
+        User user = new User(uname, pword, 0, false);
         addUser(user);
         saveUsers();
     }
@@ -320,6 +324,32 @@ public class Management {
     public void rentVehicle(java.util.Date date1, java.util.Date date2, Vehicle vehicle) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'rentVehicle'");
+    }
+
+   /* spublic void loadAdmin(String filePath) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                // Read the name and password from alternating lines
+                String name = line.trim(); // Trim to remove any leading or trailing whitespace
+                String password = reader.readLine().trim(); // Read the next line for the password
+
+                // Create an Admin object and add it to the admins ArrayList
+                Admin admin = new Admin(name, password, 1000000, true);
+                admins.add(admin);
+            }
+        } catch (IOException e) {
+            e.printStackTrace(); 
+        }
+    }*/
+    public boolean findAdmin(String uname) {
+        //loadAdmin("Admin.txt");
+
+        for(User u : users){
+            u.getAccess().equals(true);
+            return true;
+        }
+        return false;
     }
 }
 //

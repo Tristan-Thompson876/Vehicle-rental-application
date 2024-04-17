@@ -12,6 +12,7 @@ public class User implements Serializable{
     private String name;
     private String password;
     private int budget;
+    private boolean access;
 
     /**
      * Initializes a new instance of the User class with specified name, password, and budget.
@@ -20,10 +21,11 @@ public class User implements Serializable{
      * @param password The password for user authentication.
      * @param budget The budget of the user.*/
 
-    public User(String name, String password, int budget){
+    public User(String name, String password, int budget, boolean access){
         this.name = name;
         this.password = password;
         this.budget = budget;
+        this.access = access;
     }
 
         /**
@@ -123,8 +125,9 @@ public class User implements Serializable{
         System.out.println("Budget: " + budget);
     }
 
-    public boolean isAdmin() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isAdmin'");
+    public Boolean getAccess() {
+        return access;
     }
+
+    
 }

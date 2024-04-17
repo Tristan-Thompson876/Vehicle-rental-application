@@ -3,7 +3,7 @@
  */
 public class Admin extends User {
     
-    private boolean access; // Indicates whether the admin has access
+    boolean access; // Indicates whether the admin has access
     
     /**
      * Constructs a new Admin object with the specified name, password, and budget, and grants access.
@@ -12,8 +12,12 @@ public class Admin extends User {
      * @param password the password of the admin user
      * @param budget   the budget of the admin user
      */
-    public Admin(String name, String password, int budget) {
-        super(name, password, budget);
+    public Admin(String name, String password, int budget, Boolean access) {
+        super(name, password, budget, true);
         this.access = true;
+    }
+
+    public Boolean getAcces(){
+        return access;
     }
 }

@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 public class FeedScreen extends JFrame {
     private static String uname;
     private static Management management;
+    private User currentUser;
     private JTable vehicleTable;
     private JTextField filterTextField;
     private JButton filterButton;
@@ -56,6 +57,7 @@ public class FeedScreen extends JFrame {
         this.frame = frame;
         this.management = management;
         this.vehicles = management.getVehicles();
+        this.currentUser = management.findUser(uname);
 
        
 
@@ -123,7 +125,7 @@ public class FeedScreen extends JFrame {
         //filterButton = new JButton("Filter");
         filterButton.addActionListener(filterListener());
         //filterButton.addActionListener(e -> filterVehicles());
-        newVehicleButton.addActionListener(newVehicle(this));
+        newVehicleButton.addActionListener(newVehicle(this, currentUser));
         //mainPanel.add(navigationPanel);
         //navigationPanel.add(filterTextField);
         navigationPanel.add(filterButton);
@@ -139,13 +141,14 @@ public class FeedScreen extends JFrame {
     
     private ArrayList<Vehicle> filterVehicles() {
         ArrayList<Vehicle> filteredVehicles = new ArrayList<>();
-                navigationPanel.add(filterPanel);
+                //navigationPanel.add(filterPanel);
+                navigationPanel.add(filterButton);
                 //filterPanel.removeAll();
 
 
-                if (!priceHighToLowCheckbox.isSelected() || 
-                !priceLowToHighCheckbox.isSelected() || 
-                !sizeLargestToSmallestCheckbox.isSelected() || 
+                if (!priceHighToLowCheckbox.isSelected() &&
+                !priceLowToHighCheckbox.isSelected() &&
+                !sizeLargestToSmallestCheckbox.isSelected() &&
                 !sizeSmallestToLargestCheckbox.isSelected()) {
                     return vehicles;
                 }
@@ -156,16 +159,6 @@ public class FeedScreen extends JFrame {
                 boolean sortBySizeLargestToSmallest = sizeLargestToSmallestCheckbox.isSelected();
                 boolean sortBySizeSmallestToLargest = sizeSmallestToLargestCheckbox.isSelected();
 
-                if (sortByPriceHighToLow) {
-                    ArrayList<Vehicle> vs = management.sortByPriceHighLow();
-                    // Add filtered vehicles to 'filteredVehicles'
-                    filteredVehicles = vs;
-                } else if (sortByPriceLowToHigh) {
-                    ArrayList<Vehicle> vs = management.sortByPriceLowHigh();
-                    filteredVehicles = vs;
-                    // Add filtered vehicles to 'filteredVehicles'
-                }
-
                 // Group 2: Size sorting (only one option can be selected)
                 if (sortBySizeLargestToSmallest) {
                     ArrayList<Vehicle> vs = management.sortBySizeLargestSmall();
@@ -173,6 +166,16 @@ public class FeedScreen extends JFrame {
                     // Add filtered vehicles to 'filteredVehicles'
                 } else if (sortBySizeSmallestToLargest) {
                     ArrayList<Vehicle> vs = management.sortBySizeSmallLargest();
+                    filteredVehicles = vs;
+                    // Add filtered vehicles to 'filteredVehicles'
+                }
+
+                if (sortByPriceHighToLow) {
+                    ArrayList<Vehicle> vs = management.sortByPriceHighLow();
+                    // Add filtered vehicles to 'filteredVehicles'
+                    filteredVehicles = vs;
+                } else if (sortByPriceLowToHigh) {
+                    ArrayList<Vehicle> vs = management.sortByPriceLowHigh();
                     filteredVehicles = vs;
                     // Add filtered vehicles to 'filteredVehicles'
                 }
@@ -261,6 +264,7 @@ public class FeedScreen extends JFrame {
         return vehiclePanel;
     }
 
+    /* 
     private void applyFilter(String selectedFilter) {
         switch (selectedFilter) {
             case "Price High to Low":
@@ -285,15 +289,15 @@ public class FeedScreen extends JFrame {
                 // Handle unknown filter option
                 break;
         }
-    }
+    }*/
 
     
-    public static ActionListener newVehicle(FeedScreen feedScreen) {
+    public static ActionListener newVehicle(FeedScreen feedScreen, User currentUser) {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //create a new frame
-                if (management.findUser(uname).isAdmin()) {
+                if (management.findAdmin(currentUser.getName())) {
                     JFrame newVehicleFrame = new JFrame();
                     JPanel formJPanel = new JPanel();
                     newVehicleFrame.setTitle("Add New Vehicle");
@@ -375,14 +379,15 @@ public class FeedScreen extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 currentVehicle = vehicle;
-                rentForm(management);
+                rentForm(management, vehicle);
     
             }
         };
     }
     //
 
-    public void rentForm(Management management){
+    public void rentForm(Management management, Vehicle vehicle){
+        currentVehicle = vehicle;
         JFrame rentformFrame = new JFrame();
 
         rentformFrame.setTitle("Vehicle Rental Service");
@@ -443,7 +448,7 @@ public class FeedScreen extends JFrame {
                             //JFrame appreciation = new JFrame();
                             //appreciation.add(createAppreciationPanel());
                             //appreciation.setDefaultCloseOperation(EXIT_ON_CLOSE);
-                            createAppreciationPanel();
+                            createAppreciationPanel(currentVehicle);
                         }
                     };
                 }
@@ -463,7 +468,7 @@ public class FeedScreen extends JFrame {
  * 
  * @return JPanel with appreciation message displayed.
  */
-public static JFrame createAppreciationPanel() {
+public static JFrame createAppreciationPanel(Vehicle vehicle) {
     // Create a new JPanel
     JFrame appreciationPanel = new JFrame();
     appreciationPanel.setLayout(new BorderLayout()); // Use BorderLayout for better control over layout
