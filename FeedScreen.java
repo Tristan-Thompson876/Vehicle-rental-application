@@ -108,6 +108,10 @@ public class FeedScreen extends JFrame {
         navigationPanel.add(sizeLargestToSmallestCheckbox);
         navigationPanel.add(smallLarge);
         navigationPanel.add(sizeSmallestToLargestCheckbox);
+        navigationPanel = new JPanel();
+        navigationPanel.setBackground(Color.GRAY);
+        navigationPanel.setLayout(new GridLayout(5, 2));
+
 
         navigationPanel.add(buttonPanel);
         //filterTextField = new JTextField(20);
@@ -168,6 +172,80 @@ public class FeedScreen extends JFrame {
     
             }
         };
+    }
+
+
+    public static ActionListener editVehicle(FeedScreen feedScreen) {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (management.findUser(uname).isAdmin()) {
+                    JFrame editVehicleFrame = new JFrame();
+                    JPanel formJPanel = new JPanel();
+                    editVehicleFrame.setTitle("Edit Vehicle");
+                    editVehicleFrame.setSize(400, 300);
+
+                    JLabel makeModelLabel = new JLabel("Make/Model:");
+                    JTextField makeModelField = new JTextField(20);
+                    JLabel qualityLabel = new JLabel("Quality:");
+                    JTextField qualityField = new JTextField(20);
+                    JLabel seatsLabel = new JLabel("Seats:");
+                    JTextField seatsField = new JTextField(20);
+                    JLabel rentalPriceLabel = new JLabel("Rental Price:");
+                    JTextField rentalPriceField = new JTextField(20);
+                    JLabel availableLabel = new JLabel("Available:");
+                    JTextField availableField = new JTextField(20);
+
+                    JButton saveButton = new JButton("Save");
+
+                    formJPanel.add(makeModelLabel);
+                    formJPanel.add(makeModelField);
+                    formJPanel.add(qualityLabel);
+                    formJPanel.add(qualityField);
+                    formJPanel.add(seatsLabel);
+                    formJPanel.add(seatsField);
+                    formJPanel.add(rentalPriceLabel);
+                    formJPanel.add(rentalPriceField);
+                    formJPanel.add(availableLabel);
+                    formJPanel.add(availableField);
+                    formJPanel.add(saveButton);
+
+                    editVehicleFrame.add(formJPanel);
+                    editVehicleFrame.setVisible(true);
+
+                    saveButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            // Retrieve entered data and update vehicle info
+                            String makeModel = makeModelField.getText();
+                            String quality = qualityField.getText();
+                            int seats = Integer.parseInt(seatsField.getText());
+                            int rentalPrice = Integer.parseInt(rentalPriceField.getText());
+                            boolean available = Boolean.parseBoolean(availableField.getText());
+
+                            // Call method to update vehicle info through the feedScreen instance
+                            feedScreen.updateVehicleInfo(makeModel, quality, seats, rentalPrice, available);
+
+                            // Close the frame after saving
+                            editVehicleFrame.dispose();
+                        }
+                    });
+                }
+            }
+        };
+    }
+
+    public void updateVehicleInfo(String makeModel, String quality, int seats, int rentalPrice, boolean available) {
+        // Update the current vehicle with the new information
+        currentVehicle.setMakeModel(makeModel);
+        currentVehicle.setQuality(quality);
+        currentVehicle.setSeats(seats);
+        currentVehicle.setRentalPrice(rentalPrice);
+        currentVehicle.setAvailable(available);
+        
+        // Print confirmation message or perform any other action as needed
+        System.out.println("Vehicle information updated successfully:");
+        System.out.println(currentVehicle);
     }
 
 
