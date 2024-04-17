@@ -3,7 +3,7 @@
  * rental price, and availability.
  */
 public class Vehicle {
-    
+    //
     private String makeModel; // The make and model of the vehicle
     private String quality; // The quality of the vehicle
     private int seats; // The number of seats in the vehicle
