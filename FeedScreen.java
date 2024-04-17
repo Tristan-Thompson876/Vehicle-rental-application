@@ -317,6 +317,7 @@ public class FeedScreen extends JFrame {
             }
         };
     }
+    //
 
     public void rentForm(Management management){
         JFrame rentformFrame = new JFrame();
