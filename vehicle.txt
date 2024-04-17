@@ -38,4 +38,4 @@ MakeModel: Porsche 992 Turbo S
 Quality: HighEnd
 Seats: 2
 RentalPrice: 30000
-Available: false
+Available: true

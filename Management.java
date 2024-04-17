@@ -337,14 +337,14 @@ public class Management {
     /**
      * Calculates the total rental price based on the start and end dates and the daily rental price of the vehicle.
      *
-     * @param startDate The start date of the rental period.
-     * @param endDate The end date of the rental period.
+     * @param date1 The start date of the rental period.
+     * @param date2 The end date of the rental period.
      * @param vehicle The vehicle being rented.
      * @return The total rental price.
      */
-    public int rentalPrice(Date startDate, Date endDate, Vehicle vehicle) {
-        LocalDate start = LocalDate.of(startDate.getYear(), startDate.getMonth(), startDate.getDay());
-        LocalDate end = LocalDate.of(endDate.getYear(), endDate.getMonth(), endDate.getDay());
+    public int rentalPrice(java.util.Date date1, java.util.Date date2, Vehicle vehicle) {
+        LocalDate start = LocalDate.of(date1.getYear(), date1.getMonth(), date1.getDay());
+        LocalDate end = LocalDate.of(date2.getYear(), date2.getMonth(), date2.getDay());
         long days = ChronoUnit.DAYS.between(start, end); // Calculate the duration in days
         int rentalPrice = vehicle.getRentalPrice() * (int) days; // Calculate the total rental price
         return rentalPrice;
@@ -353,14 +353,14 @@ public class Management {
     /**
      * Rents a vehicle if it is available, marking it as unavailable and printing the rental details.
      *
-     * @param startDate The start date of the rental period.
-     * @param endDate The end date of the rental period.
+     * @param date1 The start date of the rental period.
+     * @param date2 The end date of the rental period.
      * @param vehicle The vehicle to rent.
      */
-    public void rentVehicle(Date startDate, Date endDate, Vehicle vehicle) {
+    public void rentVehicle(java.util.Date date1, java.util.Date date2, Vehicle vehicle) {
         if (vehicle.isAvailable()) { // Check if the vehicle is available for rent
             vehicle.setAvailable(false); // Mark the vehicle as unavailable
-            int rentalPrice = rentalPrice(startDate, endDate, vehicle); // Calculate the rental price
+            int rentalPrice = rentalPrice(date1, date2, vehicle); // Calculate the rental price
             System.out.println("Vehicle rented successfully:");
             System.out.println(vehicle);
             System.out.println("Rental Price: " + rentalPrice);

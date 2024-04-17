@@ -108,12 +108,16 @@ public class FeedScreen extends JFrame {
         navigationPanel.add(sizeLargestToSmallestCheckbox);
         navigationPanel.add(smallLarge);
         navigationPanel.add(sizeSmallestToLargestCheckbox);
-        navigationPanel = new JPanel();
-        navigationPanel.setBackground(Color.GRAY);
-        navigationPanel.setLayout(new GridLayout(5, 2));
-
 
         navigationPanel.add(buttonPanel);
+        navigationPanel.setBackground(Color.GRAY);
+        buttonPanel.setBackground(Color.GRAY);
+        priceHighToLowCheckbox.setBackground(Color.GRAY);
+        priceLowToHighCheckbox.setBackground(Color.GRAY);
+        sizeLargestToSmallestCheckbox.setBackground(Color.GRAY);
+        sizeSmallestToLargestCheckbox.setBackground(Color.GRAY);
+
+        navigationPanel.setLayout(new GridLayout(5, 2));
         //filterTextField = new JTextField(20);
         filterButton = new JButton("Filter");
         newVehicleButton = new JButton("New");
@@ -175,100 +179,8 @@ public class FeedScreen extends JFrame {
         };
     }
 
-/**
- * Creates an ActionListener for editing a vehicle. This listener is intended for use by administrators to modify vehicle details.
- * 
- * @param feedScreen The FeedScreen instance that contains the vehicle data and UI components.
- * @return ActionListener that opens a form allowing the administrator to edit vehicle details.
- */
-    public static ActionListener editVehicle(FeedScreen feedScreen) {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (management.findUser(uname).isAdmin()) {
-                    JFrame editVehicleFrame = new JFrame();
-                    JPanel formJPanel = new JPanel();
-                    editVehicleFrame.setTitle("Edit Vehicle");
-                    editVehicleFrame.setSize(400, 300);
-
-                    JLabel makeModelLabel = new JLabel("Make/Model:");
-                    JTextField makeModelField = new JTextField(20);
-                    JLabel qualityLabel = new JLabel("Quality:");
-                    JTextField qualityField = new JTextField(20);
-                    JLabel seatsLabel = new JLabel("Seats:");
-                    JTextField seatsField = new JTextField(20);
-                    JLabel rentalPriceLabel = new JLabel("Rental Price:");
-                    JTextField rentalPriceField = new JTextField(20);
-                    JLabel availableLabel = new JLabel("Available:");
-                    JTextField availableField = new JTextField(20);
-
-                    JButton saveButton = new JButton("Save");
-
-                    formJPanel.add(makeModelLabel);
-                    formJPanel.add(makeModelField);
-                    formJPanel.add(qualityLabel);
-                    formJPanel.add(qualityField);
-                    formJPanel.add(seatsLabel);
-                    formJPanel.add(seatsField);
-                    formJPanel.add(rentalPriceLabel);
-                    formJPanel.add(rentalPriceField);
-                    formJPanel.add(availableLabel);
-                    formJPanel.add(availableField);
-                    formJPanel.add(saveButton);
-
-                    editVehicleFrame.add(formJPanel);
-                    editVehicleFrame.setVisible(true);
-
-                    saveButton.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            // Retrieve entered data and update vehicle info
-                            String makeModel = makeModelField.getText();
-                            String quality = qualityField.getText();
-                            int seats = Integer.parseInt(seatsField.getText());
-                            int rentalPrice = Integer.parseInt(rentalPriceField.getText());
-                            boolean available = Boolean.parseBoolean(availableField.getText());
-
-                            // Call method to update vehicle info through the feedScreen instance
-                            feedScreen.updateVehicleInfo(makeModel, quality, seats, rentalPrice, available);
-
-                            // Close the frame after saving
-                            editVehicleFrame.dispose();
-                        }
-                    });
-                }
-            }
-        };
-    }
-/**
- * Updates the vehicle information in the management system.
- *
- * @param makeModel The new make and model of the vehicle.
- * @param quality The new quality rating of the vehicle.
- * @param seats The new number of seats in the vehicle.
- * @param rentalPrice The new rental price of the vehicle.
- * @param available The new availability status of the vehicle.
- */
-    public void updateVehicleInfo(String makeModel, String quality, int seats, int rentalPrice, boolean available) {
-        // Update the current vehicle with the new information
-        currentVehicle.setMakeModel(makeModel);
-        currentVehicle.setQuality(quality);
-        currentVehicle.setSeats(seats);
-        currentVehicle.setRentalPrice(rentalPrice);
-        currentVehicle.setAvailable(available);
-        
-        // Print confirmation message or perform any other action as needed
-        System.out.println("Vehicle information updated successfully:");
-        System.out.println(currentVehicle);
-    }
 
 
-/**
- * Filters the list of vehicles based on selected criteria in the UI.
- * This method considers which checkboxes are selected to apply the appropriate filters.
- *
- * @return ArrayList<Vehicle> The list of filtered vehicles based on the selected criteria.
- */
     private ArrayList<Vehicle> filterVehicles() {
         ArrayList<Vehicle> filteredVehicles = new ArrayList<>();
                 //navigationPanel.add(filterPanel);
@@ -440,14 +352,7 @@ public class FeedScreen extends JFrame {
         }
     }*/
 
-/**
- * Creates an ActionListener that triggers a form for adding a new vehicle. This form allows an admin user
- * to enter vehicle details and save them to the system.
- *
- * @param feedScreen The current instance of the FeedScreen where the new vehicle will be added.
- * @param currentUser The user attempting to add a new vehicle, checked for admin privileges.
- * @return An ActionListener that opens a new form window for vehicle entry when triggered.
- */
+    
     public static ActionListener newVehicle(FeedScreen feedScreen, User currentUser) {
         return new ActionListener() {
             @Override
@@ -514,15 +419,7 @@ public class FeedScreen extends JFrame {
     
 
 
-/**
- * Saves the information of a newly created or updated vehicle to the management system's vehicle list.
- *
- * @param makeModel The make and model of the vehicle.
- * @param quality The quality category of the vehicle.
- * @param seats The number of seats in the vehicle.
- * @param rentalPrice The rental price per day for the vehicle.
- * @param available The availability status of the vehicle.
- */
+    // Method to save vehicle information to the ArrayList
     public void saveVehicleInfo(String makeModel, String quality, int seats, int rentalPrice, boolean available) {
         // Create a new Vehicle object
         Vehicle newVehicle = new Vehicle(makeModel, quality, seats, rentalPrice, available);
@@ -537,14 +434,7 @@ public class FeedScreen extends JFrame {
     
     
     
-/**
- * Returns an ActionListener that opens a rental form to rent a vehicle. This form collects rental period
- * and budget information from the user.
- *
- * @param vehicle The vehicle intended to be rented.
- * @param management Reference to the management system handling the rental process.
- * @return An ActionListener that displays a rental form when triggered.
- */
+    
     public ActionListener rentButtonActionListener(Vehicle vehicle, Management management) {
         return new ActionListener() {
             @Override
@@ -555,13 +445,8 @@ public class FeedScreen extends JFrame {
             }
         };
     }
-    
- /**
- * Displays a form to the user to input rental dates and budget for renting a vehicle.
- *
- * @param management Reference to the management system to process the rental.
- * @param vehicle The vehicle to be rented.
- */
+    //
+
     public void rentForm(Management management, Vehicle vehicle){
         currentVehicle = vehicle;
         JFrame rentformFrame = new JFrame();
@@ -602,13 +487,6 @@ public class FeedScreen extends JFrame {
         //Date date2 = dateField2.getText();
         
 }
-/**
- * Creates an ActionListener that processes the submission of a vehicle rental form.
- * The listener retrieves date and budget information from the form, attempts to parse
- * the dates, and initiates the vehicle rental process if the dates are valid.
- *
- * @return ActionListener that handles the rental process upon form submission.
- */
         public ActionListener buttonActionListener() {
                     return new ActionListener() {
                         @Override
