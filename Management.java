@@ -272,23 +272,28 @@ public class Management {
     }
 
     // Sort list of vehicles by cost high to low
-    public void sortByPriceHighLow(){
+    public ArrayList<Vehicle> sortByPriceHighLow(){
+        //ArrayList<Vehicle> vehicles = Collections.sort(vehicles, Comparator.comparingDouble(Vehicle::getRentalPrice).reversed());
         Collections.sort(vehicles, Comparator.comparingDouble(Vehicle::getRentalPrice).reversed());
+        return vehicles;
     }
 
     // Sort list of vehicles by cost low to high
-    public void sortByPriceLowHigh(){
+    public ArrayList<Vehicle> sortByPriceLowHigh(){
         Collections.sort(vehicles, Comparator.comparingDouble(Vehicle::getRentalPrice));
+        return vehicles;
     }
 
     // Sort list vehicles by size largest to smallest
-    public void sortBySizeLargestSmall(){
+    public ArrayList<Vehicle> sortBySizeLargestSmall(){
         Collections.sort(vehicles, Comparator.comparingInt(Vehicle::getSeats).reversed());
+        return vehicles;
     }
 
     // Sort list vehicles by size largest to smallest
-    public void sortBySizeSmallLargest(){
+    public ArrayList<Vehicle> sortBySizeSmallLargest(){
         Collections.sort(vehicles, Comparator.comparingInt(Vehicle::getSeats));
+        return vehicles;
     }
 
 
