@@ -186,9 +186,9 @@ public class Management {
  * @param v the vehicle to find.
  * @return the vehicle if found, null otherwise.
  */
-    public Vehicle findVehicle(Vehicle v){
+    public Vehicle findVehicle(String name){
         for(Vehicle vehicle : vehicles){
-            if(vehicle.equals(v)){
+            if(vehicle.getMakeModel().equals(name)){
                 return vehicle;
             }
         }

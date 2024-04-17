@@ -43,8 +43,11 @@ public class Vehicle {
      * @param makeModel the make and model of the vehicle
      */
     public void setMakeModel(String makeModel) {
-        this.makeModel = makeModel;
+        if (!makeModel.isEmpty()) {
+            this.makeModel = makeModel;
+        }
     }
+    
 
     /**
      * Returns the quality of the vehicle.
@@ -61,8 +64,11 @@ public class Vehicle {
      * @param quality the quality of the vehicle
      */
     public void setQuality(String quality) {
-        this.quality = quality;
+        if (!quality.isEmpty()) {
+            this.quality = quality;
+        }
     }
+    
 
     /**
      * Returns the number of seats in the vehicle.
@@ -79,8 +85,11 @@ public class Vehicle {
      * @param seats the number of seats in the vehicle
      */
     public void setSeats(int seats) {
-        this.seats = seats;
+        if (seats > 0) {
+            this.seats = seats;
+        }
     }
+    
 
     /**
      * Returns the rental price of the vehicle.
@@ -97,8 +106,11 @@ public class Vehicle {
      * @param rentalPrice the rental price of the vehicle
      */
     public void setRentalPrice(int rentalPrice) {
-        this.rentalPrice = rentalPrice;
+        if (rentalPrice > 0) {
+            this.rentalPrice = rentalPrice;
+        }
     }
+    
 
     /**
      * Returns true if the vehicle is available for rental, false otherwise.
@@ -114,9 +126,12 @@ public class Vehicle {
      *
      * @param available true if the vehicle is available for rental, false otherwise
      */
-    public void setAvailable(boolean available) {
-        this.available = available;
+    public void setAvailable(Boolean available) {
+        if (available != null) {
+            this.available = available;
+        }
     }
+    
 
     /**
      * Returns a string representation of the Vehicle object.

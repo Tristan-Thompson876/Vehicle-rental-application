@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class FeedScreen extends JFrame {
     private static String uname;
     private static Management management;
-    private User currentUser;
+    private static User currentUser;
     private JTable vehicleTable;
     private JTextField filterTextField;
     private JButton filterButton;
@@ -151,7 +151,7 @@ public class FeedScreen extends JFrame {
         //filterButton = new JButton("Filter");
         filterButton.addActionListener(filterListener());
         newVehicleButton.addActionListener(newVehicle(this, currentUser));
-        editVehicleButton.addActionListener(editVehicleListener());
+        editVehicleButton.addActionListener(editVehicleListener(this));
 
         //mainPanel.add(navigationPanel);
         //navigationPanel.add(filterTextField);
@@ -168,7 +168,7 @@ public class FeedScreen extends JFrame {
 
 
     
-    private ActionListener editVehicleListener() {
+    /*private ActionListener editVehicleListener() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -177,7 +177,7 @@ public class FeedScreen extends JFrame {
     
             }
         };
-    }
+    }*/
 
 
 
@@ -416,16 +416,99 @@ public class FeedScreen extends JFrame {
         };
     }
     
-    
+    public static ActionListener editVehicleListener(FeedScreen feedScreen) {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (management.findAdmin(currentUser.getName())) {
+                    JFrame editVehicleFrame = new JFrame();
+                    JPanel formJPanel = new JPanel();
+                    editVehicleFrame.setTitle("Edit Vehicle");
+                    editVehicleFrame.setSize(400, 300);
+
+                    JLabel makeModelLabel = new JLabel("Make/Model:");
+                    JTextField makeModelField = new JTextField(20);
+                    JLabel qualityLabel = new JLabel("Quality:");
+                    JTextField qualityField = new JTextField(20);
+                    JLabel seatsLabel = new JLabel("Seats:");
+                    JTextField seatsField = new JTextField(20);
+                    JLabel rentalPriceLabel = new JLabel("Rental Price:");
+                    JTextField rentalPriceField = new JTextField(20);
+                    JLabel availableLabel = new JLabel("Available:");
+                    JTextField availableField = new JTextField(20);
+
+                    JButton saveButton = new JButton("Save");
+
+                    formJPanel.add(makeModelLabel);
+                    formJPanel.add(makeModelField);
+                    formJPanel.add(qualityLabel);
+                    formJPanel.add(qualityField);
+                    formJPanel.add(seatsLabel);
+                    formJPanel.add(seatsField);
+                    formJPanel.add(rentalPriceLabel);
+                    formJPanel.add(rentalPriceField);
+                    formJPanel.add(availableLabel);
+                    formJPanel.add(availableField);
+                    formJPanel.add(saveButton);
+
+                    editVehicleFrame.add(formJPanel);
+                    editVehicleFrame.setVisible(true);
+
+                    saveButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            // Retrieve entered data
+                            String makeModel = makeModelField.getText();
+                            String quality = qualityField.getText();
+                            int seats = 0;
+                            int rentalPrice = 0;
+                            boolean available = false;
+            
+                            // Parse numeric fields only if they are not empty
+                            if (!seatsField.getText().isEmpty()) {
+                                seats = Integer.parseInt(seatsField.getText());
+                            }
+                            if (!rentalPriceField.getText().isEmpty()) {
+                                rentalPrice = Integer.parseInt(rentalPriceField.getText());
+                            }
+                            if (!availableField.getText().isEmpty()) {
+                                available = Boolean.parseBoolean(availableField.getText());
+                            }
+            
+                            // Call method to update vehicle info through the feedScreen instance
+                            feedScreen.updateVehicleInfo(makeModel, quality, seats, rentalPrice, available);
+            
+                            // Close the frame after saving
+                            editVehicleFrame.dispose();
+                            
+                        }
+                    });
+                }
+            }
+        };
+    }
+
+    public void updateVehicleInfo(String makeModel, String quality, int seats, int rentalPrice, boolean available) {
+        
+        currentVehicle = management.findVehicle(makeModel);
+        currentVehicle.setMakeModel(makeModel);
+        currentVehicle.setQuality(quality);
+        currentVehicle.setSeats(seats);
+        currentVehicle.setRentalPrice(rentalPrice);
+        currentVehicle.setAvailable(available);
+        
+        System.out.println("Vehicle information updated successfully:");
+        System.out.println(currentVehicle);
+        showAllVehicles(filterVehicles(), feedPanel);
+    }
     
 
 
     // Method to save vehicle information to the ArrayList
     public void saveVehicleInfo(String makeModel, String quality, int seats, int rentalPrice, boolean available) {
-        // Create a new Vehicle object
-        Vehicle newVehicle = new Vehicle(makeModel, quality, seats, rentalPrice, available);
         
-        // Add the new vehicle to the ArrayList
+        Vehicle newVehicle = new Vehicle(makeModel, quality, seats, rentalPrice, available);
+      
         vehicles.add(newVehicle);
         
         // Print confirmation message

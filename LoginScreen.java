@@ -70,7 +70,7 @@ public class LoginScreen extends JFrame {
 
         BoxLayout boxlayout = new BoxLayout(loginPanel, BoxLayout.Y_AXIS);
         loginPanel.setBorder(new EmptyBorder(new Insets(100, 300, 200, 300))); 
-        setTitle("Sweet mail");
+        setTitle("Vehicle Rental login");
         
 
         bButton.addActionListener(new ActionListener() {
