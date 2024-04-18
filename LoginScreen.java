@@ -1,3 +1,4 @@
+
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -80,7 +81,6 @@ public class LoginScreen extends JFrame {
             }
         });
 
-        // Add a label to display error messages
         
         // Add the label to your panel
         loginPanel.add(errorLabel);

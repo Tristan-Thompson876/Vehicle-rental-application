@@ -1,3 +1,4 @@
+
 /**
  * The Vehicle class represents a vehicle with various attributes such as make and model, quality, number of seats,
  * rental price, and availability.

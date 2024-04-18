@@ -1,3 +1,4 @@
+
 /**
  * The Admin class represents an administrative user with special access , extending the User class.
  */
